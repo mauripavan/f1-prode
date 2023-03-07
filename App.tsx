@@ -1,17 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {StatusBar} from 'react-native';
 import {ThemeProvider} from 'styled-components';
 import {NavigationContainer} from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
 
 import {ErrorHandler} from './src/components/ErrorHandler';
 import theme from './src/theme';
 import AppNavigator from './src/navigation/AppNavigator';
+import Splash from './src/screens/Splash';
+
+SplashScreen.preventAutoHideAsync();
 
 const App = () => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    loadResources();
+    StatusBar.setBarStyle('light-content');
+  }, []);
+
+  const loadResources = async () => {
+    setAppIsReady(true);
+    await SplashScreen.hideAsync();
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <ErrorHandler>
         <NavigationContainer>
-          <AppNavigator />
+          {appIsReady && <AppNavigator />}
+          <Splash />
         </NavigationContainer>
       </ErrorHandler>
     </ThemeProvider>

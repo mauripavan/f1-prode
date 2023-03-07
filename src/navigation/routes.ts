@@ -2,7 +2,7 @@ import {StackNavigationOptions} from '@react-navigation/stack';
 import React from 'react';
 import {StatusBarStyle} from 'react-native';
 
-import Home from '../screens/Home';
+import Home from '../screens/Home/Home';
 
 type RouteKeys = keyof typeof _routes;
 
