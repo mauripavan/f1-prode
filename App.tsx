@@ -1,17 +1,15 @@
 import React from 'react';
-import {StatusBar} from 'expo-status-bar';
-import {Text, View} from 'react-native';
 import {ThemeProvider} from 'styled-components';
-
+import {ErrorHandler} from './src/components/ErrorHandler';
 import theme from './src/theme';
+import Example from './src/components/Example';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <View>
-        <Text>F1 Prode!</Text>
-        <StatusBar style="auto" />
-      </View>
+      <ErrorHandler>
+        <Example />
+      </ErrorHandler>
     </ThemeProvider>
   );
 };

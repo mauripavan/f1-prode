@@ -1,7 +1,8 @@
 import * as colors from './colors';
 
-const StyledTheme = {
+const theme = {
   ...colors,
+
 };
 
-export default StyledTheme;
+export default theme;

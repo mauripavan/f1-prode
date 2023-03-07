@@ -16,10 +16,15 @@
   "dependencies": {
     "eslint-plugin-react-native": "^4.0.0",
     "expo": "~48.0.5",
+    "expo-application": "~5.1.1",
+    "expo-constants": "~14.2.1",
+    "expo-device": "~5.2.1",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.3",
     "jest": "^29.2.1",
     "jest-expo": "^48.0.1",
     "react": "18.2.0",
+    "react-error-boundary": "^3.1.4",
     "react-native": "0.71.3",
     "react-native-reanimated": "~2.14.4",
     "react-test-renderer": "^18.2.0",
@@ -31,6 +36,7 @@
     "@types/react": "~18.0.14",
     "@types/react-native": "^0.71.3",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "babel-plugin-relay": "^14.1.0",
@@ -51,5 +57,10 @@
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
+  },
+  "resolutions": {
+    "styled-components": "^5",
+    "@babel/core": "^7.20.2",
+    "babel-loader": "^8.3.0"
   }
 }
