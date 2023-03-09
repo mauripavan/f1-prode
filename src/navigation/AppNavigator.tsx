@@ -6,7 +6,7 @@ import {routes} from './routes';
 const RootStack = createStackNavigator();
 
 const AppNavigator = () => {
-  const initialRouteName = routes.Home.name;
+  const initialRouteName = routes.Walkthrough.name;
 
   return (
     <RootStack.Navigator
