@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as Animatable from 'react-native-animatable';
-import {Animated, Dimensions, Text} from 'react-native';
+import {Animated, Dimensions} from 'react-native';
 import {useTheme} from 'styled-components';
 
 import {images} from '../../assets/images';
+import {heightPixel, widthPixel} from '../constants/metrics';
 
 async function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -48,7 +49,7 @@ const Splash = () => {
           left: 0,
           right: 0,
           opacity: opacity.current,
-          backgroundColor: '#000',
+          backgroundColor: colors.black,
         }}
       >
         <Animatable.Image
@@ -56,12 +57,11 @@ const Splash = () => {
           useNativeDriver
           source={images.f1Logo}
           style={{
-            width: 86,
-            height: 60,
+            width: widthPixel(186),
+            height: heightPixel(150),
             resizeMode: 'contain',
           }}
         />
-        <Text style={{fontSize: 20, color: colors.white}}>Prode</Text>
       </Animated.View>
     </>
   );
