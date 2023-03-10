@@ -17,23 +17,9 @@ export const ButtonContainer = styled(TouchableOpacity)<IButtonProps>`
         return `
           background-color: ${theme.colors.red[1]};
           `;
-      case ButtonVariants.Secondary:
-        return `
-          background-color: ${theme.colors.white};
-          border-color: ${theme.colors.green[1]};
-          border-width: 1px;
-          `;
-      case ButtonVariants.Light:
-        return `
-          background-color: ${theme.colors.yellow[1]};
-          `;
-      case ButtonVariants.Dark:
-        return `
-          background-color:${theme.colors.gray[0]};
-          `;
       case ButtonVariants.Disabled:
         return `
-          background-color: ${theme.colors.green[1]};
+          background-color: ${theme.colors.gray[2]};
           `;
     }
   }};
@@ -46,27 +32,6 @@ export const ButtonText = styled(Text)<IButtonProps>`
           font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(20)}px;
           font-weight: ${fontWeight ? fontWeight : 700};
           color:${fontColor ? fontColor : theme.colors.white};
-          font-family: 'MontserratSB'
-          `;
-      case ButtonVariants.Secondary:
-        return `
-          font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(16)}px;
-          font-weight: ${fontWeight ? fontWeight : 600};
-          color: ${fontColor ? fontColor : theme.colors.green[1]};
-          font-family: 'MontserratSB'
-          `;
-      case ButtonVariants.Light:
-        return `
-          font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(20)}px;
-          font-weight: ${fontWeight ? fontWeight : 700};
-          color: ${fontColor ? fontColor : theme.colors.green[1]};
-          font-family: 'MontserratSB'
-          `;
-      case ButtonVariants.Dark:
-        return `
-          font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(20)}px;
-          font-weight: ${fontWeight ? fontWeight : 700};
-          color: ${fontColor ? fontColor : theme.colors.white};
           font-family: 'MontserratSB'
           `;
       case ButtonVariants.Disabled:
