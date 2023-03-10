@@ -4,6 +4,7 @@ import {ThemeProvider} from 'styled-components';
 import {NavigationContainer} from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
+import {RecoilRoot} from 'recoil';
 
 import {ErrorHandler} from './src/components/ErrorHandler';
 import theme from './src/theme';
@@ -38,14 +39,16 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <ErrorHandler>
-        <NavigationContainer>
-          {appIsReady && <AppNavigator />}
-          <Splash />
-        </NavigationContainer>
-      </ErrorHandler>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <ErrorHandler>
+          <NavigationContainer>
+            {appIsReady && <AppNavigator />}
+            <Splash />
+          </NavigationContainer>
+        </ErrorHandler>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 };
 

@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {useTheme} from 'styled-components';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {useRecoilState} from 'recoil';
 import * as Yup from 'yup';
 
 import CustomButton from '../../components/CustomButton';
@@ -12,6 +13,7 @@ import {TextMontserratSB} from '../../components/Typography';
 import {fontPixel, pixelSizeHorizontal} from '../../constants/metrics';
 import {InputWrapper, MainWrapper} from './styles';
 import {ButtonVariants} from '../../components/CustomButton/types';
+import {currentUserState} from '../../store/app-state';
 
 const UserInfo = ({navigation}: any) => {
   const {colors} = useTheme();
@@ -28,16 +30,14 @@ const UserInfo = ({navigation}: any) => {
   const {control, handleSubmit, formState} = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const {errors, isValid} = formState;
+  const {errors, isValid, isSubmitting } = formState;
 
-  //TODO: update recoil state
-  const onCompleted = () => {
+  const [, setCurrentUser] = useRecoilState(currentUserState);
+
+  const onCompleted = (data: any) => {
+    setCurrentUser({...data})
     navigation.navigate('Home');
   };
-
-  useEffect(() => {
-    console.log();
-  }, []);
 
   return (
     <MainWrapper>
@@ -98,7 +98,7 @@ const UserInfo = ({navigation}: any) => {
         <CustomButton
           text="Siguiente"
           onPress={handleSubmit(onCompleted)}
-          disabled={isValid}
+          disabled={isSubmitting}
           fontColor={isValid ? colors.white : colors.gray[2]}
           variant={isValid ? ButtonVariants.Primary : ButtonVariants.Disabled}
         />
