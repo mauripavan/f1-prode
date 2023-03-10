@@ -1,17 +1,16 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
-import { User } from '../types/user';
-
+import {User} from '../types/user';
 
 export const InitialUserState: User = {
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    team: '',
+  id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  team: '',
 };
 
 export const currentUserState = atom({
-    key: 'CurrentUser',
-    default: InitialUserState,
+  key: 'CurrentUser',
+  default: InitialUserState,
 });

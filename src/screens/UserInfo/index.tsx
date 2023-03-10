@@ -30,12 +30,12 @@ const UserInfo = ({navigation}: any) => {
   const {control, handleSubmit, formState} = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const {errors, isValid, isSubmitting } = formState;
+  const {errors, isValid, isSubmitting} = formState;
 
   const [, setCurrentUser] = useRecoilState(currentUserState);
 
   const onCompleted = (data: any) => {
-    setCurrentUser({...data})
+    setCurrentUser({...data});
     navigation.navigate('Home');
   };
 
