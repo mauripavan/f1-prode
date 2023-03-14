@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {useTheme} from 'styled-components';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -9,9 +8,9 @@ import * as Yup from 'yup';
 import CustomButton from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput';
 import Separator from '../../components/Separator';
-import {TextMontserratSB} from '../../components/Typography';
-import {fontPixel, pixelSizeHorizontal} from '../../constants/metrics';
-import {InputWrapper, MainWrapper} from './styles';
+import {TextHighSpeed, TextMontserratSB} from '../../components/Typography';
+import {fontPixel} from '../../constants/metrics';
+import {ButtonWrapper, InputWrapper, MainWrapper} from './styles';
 import {ButtonVariants} from '../../components/CustomButton/types';
 import {currentUserState} from '../../store/app-state';
 
@@ -41,7 +40,10 @@ const UserInfo = ({navigation}: any) => {
 
   return (
     <MainWrapper>
-      <Separator size={120} />
+      <TextHighSpeed color={colors.white} style={{textAlign: 'center'}}>
+        F1 Prode
+      </TextHighSpeed>
+      <Separator size={100} />
       <InputWrapper>
         <Separator size={20} />
         <TextMontserratSB
@@ -89,12 +91,7 @@ const UserInfo = ({navigation}: any) => {
         />
         <Separator size={60} />
       </InputWrapper>
-      <View
-        style={{
-          marginLeft: pixelSizeHorizontal(52),
-          marginRight: pixelSizeHorizontal(52),
-        }}
-      >
+      <ButtonWrapper>
         <CustomButton
           text="Siguiente"
           onPress={handleSubmit(onCompleted)}
@@ -102,7 +99,7 @@ const UserInfo = ({navigation}: any) => {
           fontColor={isValid ? colors.white : colors.gray[2]}
           variant={isValid ? ButtonVariants.Primary : ButtonVariants.Disabled}
         />
-      </View>
+      </ButtonWrapper>
     </MainWrapper>
   );
 };
