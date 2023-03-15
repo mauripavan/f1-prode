@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {StatusBar, FlatList, View} from 'react-native';
-import {useTheme} from 'styled-components';
+import {StatusBar, FlatList} from 'react-native';
 import axios from 'axios';
 
 import RaceCard from '../../components/RaceCard';
 import Separator from '../../components/Separator';
-import {TextHighSpeed} from '../../components/Typography';
 import {FlatListWrapper, MainWrapper} from './styles';
 
 const Home = () => {
@@ -13,7 +11,6 @@ const Home = () => {
     StatusBar.setBarStyle('light-content');
   }, []);
 
-  const {colors} = useTheme();
   const [races, setRaces] = useState<any>({});
 
   const baseUrl = 'http://ergast.com/api/f1';
@@ -35,11 +32,6 @@ const Home = () => {
 
   return (
     <MainWrapper>
-      <View>
-        <TextHighSpeed color={colors.white} fontSize={12}>
-          F1 Prode
-        </TextHighSpeed>
-      </View>
       <FlatListWrapper>
         <FlatList
           data={races}
