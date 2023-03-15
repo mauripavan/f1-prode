@@ -9,5 +9,5 @@ export const icons = {
   locked,
   unlocked,
   menu,
-  home
+  home,
 };
