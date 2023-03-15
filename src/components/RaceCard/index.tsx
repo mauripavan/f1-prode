@@ -49,7 +49,10 @@ const RaceCard = (props: IRaceCardProps) => {
         </TextHighSpeed>
       </SubWrapper>
       <LockIconWrapper isLocked={isLocked}>
-        <LockIcon source={!isLocked ? icons.unlocked : icons.locked} />
+        <LockIcon
+          isLocked={isLocked}
+          source={!isLocked ? icons.unlocked : icons.locked}
+        />
       </LockIconWrapper>
     </MainWrapper>
   );
