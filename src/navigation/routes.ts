@@ -2,9 +2,9 @@ import React from 'react';
 import {StackNavigationOptions} from '@react-navigation/stack';
 import {StatusBarStyle} from 'react-native';
 
-import Home from '../screens/Home';
 import Walkthrough from '../screens/Walkthrough';
 import UserInfo from '../screens/UserInfo';
+import Menu from './menu/Menu';
 
 type RouteKeys = keyof typeof _routes;
 
@@ -13,9 +13,9 @@ const _routes = {
     name: 'Walkthrough',
     screen: Walkthrough,
   },
-  Home: {
-    name: 'Home',
-    screen: Home,
+  Menu: {
+    name: 'Menu',
+    screen: Menu,
   },
   UserInfo: {
     name: 'UserInfo',

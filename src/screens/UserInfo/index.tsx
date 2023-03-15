@@ -35,7 +35,7 @@ const UserInfo = ({navigation}: any) => {
 
   const onCompleted = (data: any) => {
     setCurrentUser({...data});
-    navigation.navigate('Home');
+    navigation.navigate('Menu');
   };
 
   return (
