@@ -14,8 +14,11 @@
     "precommit": "bash .husky/pre-commit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "axios": "^1.3.4",
+    "date-fns": "^2.29.3",
     "eslint-plugin-react-native": "^4.0.0",
     "expo": "~48.0.5",
     "expo-application": "~5.1.1",
@@ -25,10 +28,12 @@
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.3",
+    "formik": "^2.2.9",
     "jest": "^29.2.1",
     "jest-expo": "^48.0.1",
     "react": "18.2.0",
     "react-error-boundary": "^3.1.4",
+    "react-hook-form": "^7.43.5",
     "react-native": "0.71.3",
     "react-native-animatable": "^1.3.3",
     "react-native-gesture-handler": "~2.9.0",
@@ -36,7 +41,9 @@
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
     "react-test-renderer": "^18.2.0",
-    "styled-components": "^5.3.8"
+    "recoil": "^0.7.7",
+    "styled-components": "^5.3.8",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

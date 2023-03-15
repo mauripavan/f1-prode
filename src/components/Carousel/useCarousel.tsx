@@ -58,12 +58,12 @@ const useCarousel = (props: ICarouselProps) => {
       setIndex(index + 1);
       flatListRef?.current?.scrollToIndex({animated: false, index: index + 1});
     } else {
-      navigation.navigate('Home');
+      navigation.navigate('UserInfo');
     }
   }, [navigation, index, list, setIndex, flatListRef]);
 
   const onSkipPress = useCallback(() => {
-    navigation.navigate('Home');
+    navigation.navigate('UserInfo');
   }, [navigation]);
 
   return {

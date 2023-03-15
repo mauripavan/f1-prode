@@ -6,6 +6,7 @@ export const colors = {
   white: '#FFFFFF',
   green: {
     1: '#0C2D24',
+    2: '#b9f238',
   },
   yellow: {
     1: '#F8FF31',
@@ -15,6 +16,7 @@ export const colors = {
   },
   red: {
     1: '#F72C00',
+    2: '#E4B1AB',
   },
   gray: {
     0: '#f4f4f4',
