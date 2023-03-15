@@ -2,6 +2,11 @@ export const colors = {
   black: '#000000',
   dark: {
     1: '#060B07',
+    2: '#1F2727',
+    3: '#1C1E1B',
+    4: '#000000',
+    5: '#070C09',
+    6: '#080E0B',
   },
   white: '#FFFFFF',
   green: {
