@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {View, Image} from 'react-native';
+import {View, Image, Pressable} from 'react-native';
 
 import {
   heightPixel,
@@ -8,14 +8,21 @@ import {
 } from '../../constants/metrics';
 import {RaceCardType} from './types';
 
-export const MainWrapper = styled(View)`
+export const MainWrapper = styled(Pressable)`
   align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   background-color: ${({theme}) => theme.colors.gray[2]};
-  height: ${heightPixel(35)}px;
+  height: ${heightPixel(70)}px;
   border-radius: 200px;
   width: 100%;
-  padding-left: ${pixelSizeHorizontal(15)}px;
+  padding-horizontal: ${pixelSizeHorizontal(15)}px;
+`;
+
+export const SubWrapper = styled(View)`
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
 `;
 
 export const LockIcon = styled(Image)`
@@ -32,6 +39,4 @@ export const LockIconWrapper = styled(View)<RaceCardType>`
   border-radius: 20px;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: ${pixelSizeHorizontal(10)}px;
 `;

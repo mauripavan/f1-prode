@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable} from 'react-native';
 import {useTheme} from 'styled-components';
 import {format, differenceInDays} from 'date-fns';
 
 import {icons} from '../../../assets/icons';
 import {fontPixel, pixelSizeHorizontal} from '../../constants/metrics';
 import {TextHighSpeed} from '../Typography';
-import {LockIcon, LockIconWrapper, MainWrapper} from './styles';
+import {LockIcon, LockIconWrapper, MainWrapper, SubWrapper} from './styles';
 import {IRaceCardProps} from './types';
 
 const RaceCard = (props: IRaceCardProps) => {
@@ -28,15 +27,17 @@ const RaceCard = (props: IRaceCardProps) => {
   }, []);
 
   return (
-    <Pressable>
-      <MainWrapper>
-        <TextHighSpeed
-          style={{marginRight: pixelSizeHorizontal(10)}}
-          fontSize={fontPixel(8)}
-        >
+    <MainWrapper>
+      <SubWrapper>
+        <TextHighSpeed style={{marginRight: pixelSizeHorizontal(10)}}>
           {round}/23
         </TextHighSpeed>
-        <TextHighSpeed color={colors.white} fontSize={fontPixel(8)}>
+        <TextHighSpeed
+          color={colors.white}
+          style={{overflow: 'hidden', maxWidth: '60%'}}
+          numberOfLines={1}
+          ellipsizeMode={'tail'}
+        >
           {raceName}
         </TextHighSpeed>
         <TextHighSpeed
@@ -46,11 +47,11 @@ const RaceCard = (props: IRaceCardProps) => {
         >
           {formatedDate}
         </TextHighSpeed>
-        <LockIconWrapper isLocked={isLocked}>
-          <LockIcon source={!isLocked ? icons.unlocked : icons.locked} />
-        </LockIconWrapper>
-      </MainWrapper>
-    </Pressable>
+      </SubWrapper>
+      <LockIconWrapper isLocked={isLocked}>
+        <LockIcon source={!isLocked ? icons.unlocked : icons.locked} />
+      </LockIconWrapper>
+    </MainWrapper>
   );
 };
 
