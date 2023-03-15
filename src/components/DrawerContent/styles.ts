@@ -17,12 +17,11 @@ export const DrawerContentMainWrapepr = styled(View)`
 export const LogoWrapper = styled(View)`
   flex-direction: row;
   align-items: center;
-  margin-bottom: ${pixelSizeVertical(20)}px;
 `;
 
 export const LogoImage = styled(Image)`
-  width: ${widthPixel(40)}px;
-  height: ${heightPixel(40)}px;
+  width: ${widthPixel(60)}px;
+  height: ${heightPixel(60)}px;
   margin-right: ${pixelSizeHorizontal(20)}px;
 `;
 export const NavigationWrapper = styled(View)`
