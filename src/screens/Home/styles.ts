@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import {Platform, SafeAreaView, StatusBar, View} from 'react-native';
+import { Platform, StatusBar, View } from 'react-native';
 
-import {pixelSizeHorizontal} from '../../constants/metrics';
+import { pixelSizeHorizontal } from '../../constants/metrics';
 
-export const MainWrapper = styled(SafeAreaView)`
+export const MainWrapper = styled(View)`
   justify-content: center;
   align-items: center;
   flex: 1;
-  background-color: ${({theme}) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.black};
   padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight : 0}px;
 `;
 
