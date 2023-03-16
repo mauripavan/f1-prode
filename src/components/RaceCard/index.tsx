@@ -19,7 +19,7 @@ const RaceCard = (props: IRaceCardProps) => {
   const daysToRace = differenceInDays(new Date(date), new Date());
 
   const checkIfAvailable = () => {
-    daysToRace <= 2 ? setIsLocked(false) : setIsLocked(true);
+    daysToRace < 1 ? setIsLocked(false) : setIsLocked(true);
   };
 
   useEffect(() => {
