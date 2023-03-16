@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from '../../screens/Home';
 import useScreenOptions from '../../hooks/useScreenOptions';
+import Circuit from '../../screens/Circuit';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,11 @@ const Screens = () => {
       initialRouteName={'Home'}
     >
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        name="Circuit"
+        component={Circuit}
+        options={{header: () => null}}
+      />
     </Stack.Navigator>
   );
 };
