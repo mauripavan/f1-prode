@@ -3,6 +3,7 @@ import {useTheme} from 'styled-components';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useRecoilState} from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Yup from 'yup';
 
 import CustomButton from '../../components/CustomButton';
@@ -33,8 +34,14 @@ const UserInfo = ({navigation}: any) => {
 
   const [, setCurrentUser] = useRecoilState(currentUserState);
 
+  const storeValue = async (value: any) => {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('userConfig', jsonValue);
+  };
+
   const onCompleted = (data: any) => {
     setCurrentUser({...data});
+    storeValue('true');
     navigation.navigate('Menu');
   };
 
