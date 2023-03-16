@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
 import {format, differenceInDays} from 'date-fns';
+import {useNavigation} from '@react-navigation/native';
 
 import {icons} from '../../../assets/icons';
 import {fontPixel, pixelSizeHorizontal} from '../../constants/metrics';
@@ -12,6 +13,8 @@ const RaceCard = (props: IRaceCardProps) => {
   const {colors} = useTheme();
   const {raceName, round, date} = props;
 
+  const navigation = useNavigation();
+
   const [isLocked, setIsLocked] = useState(true);
 
   const formatedDate = format(new Date(date), 'MM/dd');
@@ -22,12 +25,16 @@ const RaceCard = (props: IRaceCardProps) => {
     daysToRace < 1 ? setIsLocked(false) : setIsLocked(true);
   };
 
+  const handleRacePress = () => {
+    navigation.navigate('Circuit');
+  };
+
   useEffect(() => {
     checkIfAvailable();
   }, []);
 
   return (
-    <MainWrapper>
+    <MainWrapper onPress={handleRacePress} disabled={isLocked}>
       <SubWrapper>
         <TextHighSpeed style={{marginRight: pixelSizeHorizontal(10)}}>
           {round}/23
