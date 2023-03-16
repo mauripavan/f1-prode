@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Carousel from '../../components/Carousel';
 import {MainWrapper} from './styles';
@@ -31,6 +32,17 @@ const slideList = [
 
 const Walkthrough = ({navigation}: any) => {
   const [index, setIndex] = useState(0);
+
+  const getData = async () => {
+    const value = await AsyncStorage.getItem('userConfig');
+    if (value) {
+      navigation.navigate('Menu');
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <MainWrapper>

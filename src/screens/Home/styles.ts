@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import {Platform, SafeAreaView, StatusBar, View} from 'react-native';
+import {Platform, StatusBar, View} from 'react-native';
 
 import {pixelSizeHorizontal} from '../../constants/metrics';
 
-export const MainWrapper = styled(SafeAreaView)`
+export const MainWrapper = styled(View)`
   justify-content: center;
   align-items: center;
   flex: 1;

@@ -19,7 +19,7 @@ const RaceCard = (props: IRaceCardProps) => {
   const daysToRace = differenceInDays(new Date(date), new Date());
 
   const checkIfAvailable = () => {
-    daysToRace <= 2 ? setIsLocked(false) : setIsLocked(true);
+    daysToRace < 1 ? setIsLocked(false) : setIsLocked(true);
   };
 
   useEffect(() => {
@@ -49,7 +49,10 @@ const RaceCard = (props: IRaceCardProps) => {
         </TextHighSpeed>
       </SubWrapper>
       <LockIconWrapper isLocked={isLocked}>
-        <LockIcon source={!isLocked ? icons.unlocked : icons.locked} />
+        <LockIcon
+          isLocked={isLocked}
+          source={!isLocked ? icons.unlocked : icons.locked}
+        />
       </LockIconWrapper>
     </MainWrapper>
   );
