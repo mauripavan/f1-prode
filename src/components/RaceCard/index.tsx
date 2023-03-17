@@ -11,22 +11,22 @@ import {IRaceCardProps} from './types';
 
 const RaceCard = (props: IRaceCardProps) => {
   const {colors} = useTheme();
-  const {raceName, round, date} = props;
+  const {data} = props;
 
   const navigation = useNavigation();
 
   const [isLocked, setIsLocked] = useState(true);
 
-  const formatedDate = format(new Date(date), 'MM/dd');
+  const formatedDate = format(new Date(data.date), 'MM/dd');
 
-  const daysToRace = differenceInDays(new Date(date), new Date());
+  const daysToRace = differenceInDays(new Date(data.date), new Date());
 
   const checkIfAvailable = () => {
     daysToRace < 1 ? setIsLocked(false) : setIsLocked(true);
   };
 
   const handleRacePress = () => {
-    navigation.navigate('Circuit');
+    navigation.navigate('Circuit', {data});
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const RaceCard = (props: IRaceCardProps) => {
     <MainWrapper onPress={handleRacePress} disabled={isLocked}>
       <SubWrapper>
         <TextHighSpeed style={{marginRight: pixelSizeHorizontal(10)}}>
-          {round}/23
+          {data.round}/23
         </TextHighSpeed>
         <TextHighSpeed
           color={colors.white}
@@ -45,7 +45,7 @@ const RaceCard = (props: IRaceCardProps) => {
           numberOfLines={1}
           ellipsizeMode={'tail'}
         >
-          {raceName}
+          {data.raceName}
         </TextHighSpeed>
         <TextHighSpeed
           color={colors.blue[1]}
