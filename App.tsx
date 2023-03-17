@@ -23,6 +23,8 @@ const App = () => {
     MontserratL: fonts.MontserratL,
     MontserratR: fonts.MontserratR,
     MontserratSB: fonts.MontserratSB,
+    Formula1B: fonts.Formula1B,
+    Formula1R: fonts.Formula1R,
   };
 
   useEffect(() => {
