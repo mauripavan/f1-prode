@@ -17,9 +17,11 @@ const RaceCard = (props: IRaceCardProps) => {
 
   const [isLocked, setIsLocked] = useState(true);
 
-  const formatedDate = format(new Date(data.date), 'MM/dd');
+  const date = `${data.date}T${data.time}`;
 
-  const daysToRace = differenceInDays(new Date(data.date), new Date());
+  const formatedDate = format(new Date(date), 'd MMM');
+
+  const daysToRace = differenceInDays(new Date(date), new Date());
 
   const checkIfAvailable = () => {
     daysToRace < 1 ? setIsLocked(false) : setIsLocked(true);
