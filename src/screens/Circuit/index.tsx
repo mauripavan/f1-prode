@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Platform,
   StatusBar,
@@ -21,12 +21,69 @@ import {fontPixel} from '../../constants/metrics';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
+  const {
+    abudhabiCircuit,
+    australiaCircuit,
+    austriaCircuit,
+    azerbaijanCircuit,
+    belgiumCircuit,
+    brazilCircuit,
+    britishCircuit,
+    canadianCircuit,
+    dutchCircuit,
+    emiliaCircuit,
+    hungaryCircuit,
+    italyCircuit,
+    japanCircuit,
+    lasVegasCircuit,
+    mexicoCircuit,
+    miamiCircuit,
+    monacoCircuit,
+    qatarCircuit,
+    saudiCircuit,
+    singaporeCircuit,
+    usCircuit,
+    bahrainCircuit,
+    spainCircuit,
+  } = images;
 
   const {data} = route.params;
 
   const onBackPress = () => {
     navigation.goBack();
   };
+
+  const circuits: any = {
+    yas_marina: abudhabiCircuit,
+    albert_park: australiaCircuit,
+    red_bull_ring: austriaCircuit,
+    baku: azerbaijanCircuit,
+    spa: belgiumCircuit,
+    interlagos: brazilCircuit,
+    silverstone: britishCircuit,
+    villenueve: canadianCircuit,
+    zandvoort: dutchCircuit,
+    imola: emiliaCircuit,
+    hungaroring: hungaryCircuit,
+    monza: italyCircuit,
+    suzuka: japanCircuit,
+    vegas: lasVegasCircuit,
+    rodriguez: mexicoCircuit,
+    miami: miamiCircuit,
+    monaco: monacoCircuit,
+    losail: qatarCircuit,
+    jeddah: saudiCircuit,
+    marina_bay: singaporeCircuit,
+    americas: usCircuit,
+    bahrain: bahrainCircuit,
+    catalunya: spainCircuit,
+  };
+
+  const [circuitImage, setCircuitImage] = useState<any>();
+
+  useEffect(() => {
+    setCircuitImage(circuits[data.Circuit.circuitId]);
+  }, []);
 
   return (
     <SafeAreaView
@@ -65,14 +122,14 @@ const Circuit = ({route, navigation}: any) => {
       </View>
       <Separator size={50} />
       <TextFormula1B
-        fontSize={fontPixel(30)}
+        fontSize={fontPixel(22)}
         color={colors.white}
         style={{textAlign: 'center'}}
       >
         {data.raceName}
       </TextFormula1B>
       <TextFormula1B
-        fontSize={fontPixel(30)}
+        fontSize={fontPixel(24)}
         color={colors.red[1]}
         style={{textAlign: 'center'}}
       >
@@ -80,7 +137,7 @@ const Circuit = ({route, navigation}: any) => {
       </TextFormula1B>
       <Separator size={30} />
       <Image
-        source={images.saudiCircuit}
+        source={circuitImage}
         style={{height: '30%', width: '100%', resizeMode: 'contain'}}
       />
       <Separator size={20} />
