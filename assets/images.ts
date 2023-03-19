@@ -45,5 +45,5 @@ export const images = {
   singaporeCircuit,
   brazilCircuit,
   britishCircuit,
-  canadianCircuit
+  canadianCircuit,
 };
