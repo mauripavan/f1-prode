@@ -1,16 +1,10 @@
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {
-  Platform,
-  StatusBar,
-  SafeAreaView,
-  Image,
-  View,
-  Pressable,
-} from 'react-native';
 import {useTheme} from 'styled-components';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
+import ResultsCard from '../../components/ResultsCard';
 import Separator from '../../components/Separator';
 import {
   TextFormula1B,
@@ -18,6 +12,14 @@ import {
   TextHighSpeed,
 } from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
+import {
+  BackButton,
+  BackButtonWrapper,
+  CircuitImage,
+  HeaderWrapper,
+  MainWrapper,
+  ResultCardWrapper,
+} from './styles';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
@@ -85,41 +87,52 @@ const Circuit = ({route, navigation}: any) => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
   }, []);
 
+  const [, setQualyResults] = useState([]);
+  const [qualyDisabled, setQualyDisabled] = useState(true);
+  const [, setRaceResults] = useState([]);
+  const [raceDisabled, setRaceDisabled] = useState(true);
+
+  const baseUrl = 'http://ergast.com/api/f1';
+
+  const getQualyResult = async () => {
+    const response = await axios.get(
+      `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
+    );
+    setQualyResults(response.data.MRData.RaceTable.Races);
+    response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
+  };
+
+  const getRaceResult = async () => {
+    const response = await axios.get(
+      `${baseUrl}/${data.season}/${data.round}/results.json`,
+    );
+    setRaceResults(response.data.MRData.RaceTable.Races);
+    response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
+  };
+
+  useEffect(() => {
+    getQualyResult();
+    getRaceResult();
+  }, []);
+
+  const handleQualyPress = () => {
+    console.log('ENTRO!');
+  };
+
+  const handleRacePress = () => {
+    console.log('ENTRO!');
+  };
+
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: colors.black,
-        flex: 1,
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      }}
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Pressable
-          style={{
-            position: 'absolute',
-            left: 10,
-          }}
-          onPress={onBackPress}
-        >
-          <Image
-            source={icons.back}
-            style={{
-              height: 15,
-              width: 15,
-              tintColor: colors.white,
-            }}
-          />
-        </Pressable>
+    <MainWrapper>
+      <HeaderWrapper>
+        <BackButtonWrapper onPress={onBackPress}>
+          <BackButton source={icons.back} />
+        </BackButtonWrapper>
         <TextHighSpeed color={colors.white} fontSize={fontPixel(16)}>
           F1 Prode
         </TextHighSpeed>
-      </View>
+      </HeaderWrapper>
       <Separator size={50} />
       <TextFormula1B
         fontSize={fontPixel(22)}
@@ -133,13 +146,10 @@ const Circuit = ({route, navigation}: any) => {
         color={colors.red[1]}
         style={{textAlign: 'center'}}
       >
-        2023
+        {data.season}
       </TextFormula1B>
       <Separator size={30} />
-      <Image
-        source={circuitImage}
-        style={{height: '30%', width: '100%', resizeMode: 'contain'}}
-      />
+      <CircuitImage source={circuitImage} />
       <Separator size={20} />
 
       <TextFormula1R
@@ -149,7 +159,22 @@ const Circuit = ({route, navigation}: any) => {
       >
         {data.Circuit.circuitName}
       </TextFormula1R>
-    </SafeAreaView>
+      <Separator size={40} />
+      <ResultCardWrapper>
+        <ResultsCard
+          name={'Qualifying Results'}
+          icon={icons.tyre}
+          onPress={handleQualyPress}
+          disabled={qualyDisabled}
+        />
+        <ResultsCard
+          name={'Race Results'}
+          icon={icons.raceFlag}
+          onPress={handleRacePress}
+          disabled={raceDisabled}
+        />
+      </ResultCardWrapper>
+    </MainWrapper>
   );
 };
 
