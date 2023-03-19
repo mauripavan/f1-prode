@@ -22,6 +22,8 @@ const singaporeCircuit = require('./images/singapore-circuit.png');
 const brazilCircuit = require('./images/brazil-circuit.png');
 const britishCircuit = require('./images/british-circuit.png');
 const canadianCircuit = require('./images/canadian-circuit.png');
+const bahrainCircuit = require('./images/bahrain-circuit.png');
+const spainCircuit = require('./images/spain-circuit.png');
 
 export const images = {
   f1Logo,
@@ -46,4 +48,6 @@ export const images = {
   brazilCircuit,
   britishCircuit,
   canadianCircuit,
+  bahrainCircuit,
+  spainCircuit,
 };
