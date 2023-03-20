@@ -11,7 +11,7 @@ export const MainWrapper = styled(Pressable)`
   height: ${heightPixel(100)}px;
   width: 25%;
   background-color: ${({theme, disabled}) =>
-    disabled ? theme.colors.gray[2] : theme.colors.red[1]};
+    disabled ? theme.colors.red[4] : theme.colors.red[1]};
   justify-content: center;
   align-items: center;
   border-radius: 10px;
@@ -20,8 +20,13 @@ export const MainWrapper = styled(Pressable)`
   border-color: ${({theme}) => theme.colors.gray[2]};
 `;
 
-export const CardIcon = styled(Image)`
+interface ICardIconProps {
+  disabled?: boolean | null;
+}
+
+export const CardIcon = styled(Image)<ICardIconProps>`
   height: ${heightPixel(15)}px;
   width: ${widthPixel(15)}px;
-  tint-color: ${({theme}) => theme.colors.white};
+  tint-color: ${({theme, disabled}) =>
+    disabled ? theme.colors.gray[2] : theme.colors.white};
 `;
