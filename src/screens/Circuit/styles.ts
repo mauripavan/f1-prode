@@ -7,6 +7,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 import {
   heightPixel,
@@ -60,4 +61,16 @@ export const PlayButton = styled(Pressable)`
   border-width: 1px;
   border-color: ${({theme}) => theme.colors.gray[0]};
   padding-horizontal: ${pixelSizeHorizontal(40)}px;
+`;
+
+export const LoadingWrapper = styled(View)`
+  background-color: ${({theme}) => theme.colors.black};
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const AnimationLoader = styled(LottieView)`
+  width: ${widthPixel(166)}px;
+  height: ${heightPixel(166)}px;
 `;

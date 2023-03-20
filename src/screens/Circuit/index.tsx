@@ -13,18 +13,32 @@ import {
 } from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
 import {
+  AnimationLoader,
   BackButton,
   BackButtonWrapper,
   CircuitImage,
   HeaderWrapper,
+  LoadingWrapper,
   MainWrapper,
   PlayButton,
   PlayButtonWrapper,
   ResultCardWrapper,
 } from './styles';
+import {animations} from '../../../assets/animations';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
+  const {data} = route.params;
+
+  const [circuitImage, setCircuitImage] = useState<any>();
+  const [, setQualyResults] = useState([]);
+  const [qualyDisabled, setQualyDisabled] = useState(true);
+  const [, setRaceResults] = useState([]);
+  const [raceDisabled, setRaceDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const baseUrl = 'http://ergast.com/api/f1';
+
   const {
     abudhabiCircuit,
     australiaCircuit,
@@ -50,12 +64,6 @@ const Circuit = ({route, navigation}: any) => {
     bahrainCircuit,
     spainCircuit,
   } = images;
-
-  const {data} = route.params;
-
-  const onBackPress = () => {
-    navigation.goBack();
-  };
 
   const circuits: any = {
     yas_marina: abudhabiCircuit,
@@ -83,39 +91,31 @@ const Circuit = ({route, navigation}: any) => {
     catalunya: spainCircuit,
   };
 
-  const [circuitImage, setCircuitImage] = useState<any>();
-
   useEffect(() => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
+    getQualyResult();
+    getRaceResult();
   }, []);
 
-  const [, setQualyResults] = useState([]);
-  const [qualyDisabled, setQualyDisabled] = useState(true);
-  const [, setRaceResults] = useState([]);
-  const [raceDisabled, setRaceDisabled] = useState(true);
-
-  const baseUrl = 'http://ergast.com/api/f1';
-
   const getQualyResult = async () => {
+    setLoading(true);
     const response = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
     );
+    setLoading(false);
     setQualyResults(response.data.MRData.RaceTable.Races);
     response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
   };
 
   const getRaceResult = async () => {
+    setLoading(true);
     const response = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/results.json`,
     );
+    setLoading(false);
     setRaceResults(response.data.MRData.RaceTable.Races);
     response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
   };
-
-  useEffect(() => {
-    getQualyResult();
-    getRaceResult();
-  }, []);
 
   const handleQualyPress = () => {
     console.log('ENTRO!');
@@ -124,6 +124,22 @@ const Circuit = ({route, navigation}: any) => {
   const handleRacePress = () => {
     console.log('ENTRO!');
   };
+
+  const onBackPress = () => {
+    navigation.goBack();
+  };
+
+  if (loading) {
+    return (
+      <LoadingWrapper>
+        <AnimationLoader
+          autoPlay
+          duration={3000}
+          source={animations.loadingCar}
+        />
+      </LoadingWrapper>
+    );
+  }
 
   return (
     <MainWrapper>
