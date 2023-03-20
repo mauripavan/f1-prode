@@ -46,3 +46,18 @@ export const ResultCardWrapper = styled(View)`
   flex-direction: row;
   justify-content: space-evenly;
 `;
+
+export const PlayButtonWrapper = styled(View)`
+  padding-horizontal: ${pixelSizeHorizontal(40)}px;
+`;
+export const PlayButton = styled(Pressable)`
+  height: ${heightPixel(50)}px;
+  width: 100%;
+  background-color: ${({theme}) => theme.colors.yellow[1]};
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: ${({theme}) => theme.colors.gray[0]};
+  padding-horizontal: ${pixelSizeHorizontal(40)}px;
+`;

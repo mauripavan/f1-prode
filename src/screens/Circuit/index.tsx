@@ -18,6 +18,8 @@ import {
   CircuitImage,
   HeaderWrapper,
   MainWrapper,
+  PlayButton,
+  PlayButtonWrapper,
   ResultCardWrapper,
 } from './styles';
 
@@ -174,6 +176,14 @@ const Circuit = ({route, navigation}: any) => {
           disabled={raceDisabled}
         />
       </ResultCardWrapper>
+      <Separator size={40} />
+      <PlayButtonWrapper>
+        <PlayButton>
+          <TextHighSpeed fontSize={18} color={colors.black}>
+            Play
+          </TextHighSpeed>
+        </PlayButton>
+      </PlayButtonWrapper>
     </MainWrapper>
   );
 };
