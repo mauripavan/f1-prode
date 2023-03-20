@@ -16,7 +16,11 @@ const Screens = () => {
       screenOptions={screenOptions.stack}
       initialRouteName={'Home'}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{gestureEnabled: false}}
+      />
     </Stack.Navigator>
   );
 };

@@ -24,10 +24,12 @@ const Home = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    console.log('races', races);
+  }, [races]);
+
   const renderItem = ({item}: any) => {
-    return (
-      <RaceCard round={item.round} raceName={item.raceName} date={item.date} />
-    );
+    return <RaceCard data={item} />;
   };
 
   return (

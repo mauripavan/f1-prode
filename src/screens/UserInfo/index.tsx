@@ -13,9 +13,9 @@ import {TextHighSpeed, TextMontserratSB} from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
 import {ButtonWrapper, InputWrapper, MainWrapper} from './styles';
 import {ButtonVariants} from '../../components/CustomButton/types';
-import {currentUserState} from '../../store/app-state';
+import {currentUserState, userConfigState} from '../../store/app-state';
 
-const UserInfo = ({navigation}: any) => {
+const UserInfo = () => {
   const {colors} = useTheme();
 
   const validationSchema = Yup.object().shape({
@@ -33,6 +33,7 @@ const UserInfo = ({navigation}: any) => {
   const {errors, isValid, isSubmitting} = formState;
 
   const [, setCurrentUser] = useRecoilState(currentUserState);
+  const [, setUserConfig] = useRecoilState(userConfigState);
 
   const storeValue = async (value: any) => {
     const jsonValue = JSON.stringify(value);
@@ -41,8 +42,8 @@ const UserInfo = ({navigation}: any) => {
 
   const onCompleted = (data: any) => {
     setCurrentUser({...data});
+    setUserConfig(true);
     storeValue('true');
-    navigation.navigate('Menu');
   };
 
   return (

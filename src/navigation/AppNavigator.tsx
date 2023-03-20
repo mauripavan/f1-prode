@@ -1,34 +1,14 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {useRecoilValue} from 'recoil';
 
-import {routes} from './routes';
+import {userConfigState} from '../store/app-state';
+import AuthController from './auth/AuthController';
+import HomeController from './home/HomeController';
 
-const RootStack = createStackNavigator();
+const Navigation = () => {
+  const userConfig = useRecoilValue(userConfigState);
 
-const AppNavigator = () => {
-  const initialRouteName = routes.Walkthrough.name;
-
-  return (
-    <RootStack.Navigator
-      initialRouteName={initialRouteName}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {Object.keys(routes).map((key) => {
-        const {name, screen, screenNavigationOptions} =
-          routes[key as keyof typeof routes];
-        return (
-          <RootStack.Screen
-            name={name}
-            component={screen}
-            options={screenNavigationOptions}
-            key={name}
-          />
-        );
-      })}
-    </RootStack.Navigator>
-  );
+  return userConfig ? <HomeController /> : <AuthController />;
 };
 
-export default AppNavigator;
+export default Navigation;

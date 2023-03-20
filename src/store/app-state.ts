@@ -14,3 +14,8 @@ export const currentUserState = atom({
   key: 'CurrentUser',
   default: InitialUserState,
 });
+
+export const userConfigState = atom({
+  key: 'UserConfigState',
+  default: false,
+});

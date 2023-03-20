@@ -48,10 +48,28 @@ const TextMontserratSB = styled(Text)<ITypographyProps>`
   font-family: 'MontserratSB';
 `;
 
+// Formula1R
+const TextFormula1R = styled(Text)<ITypographyProps>`
+  font-size: ${({fontSize}) =>
+    fontSize ? fontPixel(fontSize) : fontPixel(12)}px;
+  color: ${({color, theme}) => (color ? color : theme.colors.black)};
+  font-family: 'Formula1R';
+`;
+
+// Formula1B
+const TextFormula1B = styled(Text)<ITypographyProps>`
+  font-size: ${({fontSize}) =>
+    fontSize ? fontPixel(fontSize) : fontPixel(12)}px;
+  color: ${({color, theme}) => (color ? color : theme.colors.black)};
+  font-family: 'Formula1B';
+`;
+
 export {
   TextHighSpeed,
   TextMontserratEL,
   TextMontserratL,
   TextMontserratR,
   TextMontserratSB,
+  TextFormula1R,
+  TextFormula1B,
 };

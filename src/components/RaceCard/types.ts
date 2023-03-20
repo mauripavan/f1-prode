@@ -1,7 +1,5 @@
 export interface IRaceCardProps {
-  round: string;
-  raceName: string;
-  date: Date | number;
+  data: any;
 }
 
 export type RaceCardType = {
