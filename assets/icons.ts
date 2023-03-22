@@ -7,6 +7,7 @@ const home = require('./icons/home.png');
 const back = require('./icons/left-arrow.png');
 const raceFlag = require('./icons/finish-flag.png');
 const tyre = require('./icons/tyre.png');
+const close = require('./icons/close.png');
 
 export const icons = {
   locked,
@@ -16,4 +17,5 @@ export const icons = {
   back,
   raceFlag,
   tyre,
+  close,
 };

@@ -36,10 +36,6 @@ const Home = () => {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log('races', races);
-  }, [races]);
-
   const renderItem = ({item}: any) => {
     return <RaceCard data={item} />;
   };

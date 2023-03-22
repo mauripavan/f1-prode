@@ -19,3 +19,8 @@ export const userConfigState = atom({
   key: 'UserConfigState',
   default: false,
 });
+
+export const resultsModalState = atom({
+  key: 'ResultsModalState',
+  default: false,
+});

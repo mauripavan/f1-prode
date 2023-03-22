@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
+import {useRecoilState} from 'recoil';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -25,17 +26,21 @@ import {
   ResultCardWrapper,
 } from './styles';
 import {animations} from '../../../assets/animations';
+import ResultsModal from '../../components/ResultsModal';
+import {resultsModalState} from '../../store/app-state';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
   const {data} = route.params;
 
   const [circuitImage, setCircuitImage] = useState<any>();
-  const [, setQualyResults] = useState([]);
+  const [qualyResults, setQualyResults] = useState([]);
   const [qualyDisabled, setQualyDisabled] = useState(true);
-  const [, setRaceResults] = useState([]);
+  const [raceResults, setRaceResults] = useState([]);
   const [raceDisabled, setRaceDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useRecoilState(resultsModalState);
+  const [resultType, setResultType] = useState('');
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -103,7 +108,7 @@ const Circuit = ({route, navigation}: any) => {
       `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
     );
     setLoading(false);
-    setQualyResults(response.data.MRData.RaceTable.Races);
+    setQualyResults(response.data.MRData.RaceTable.Races[0].QualifyingResults);
     response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
   };
 
@@ -113,16 +118,18 @@ const Circuit = ({route, navigation}: any) => {
       `${baseUrl}/${data.season}/${data.round}/results.json`,
     );
     setLoading(false);
-    setRaceResults(response.data.MRData.RaceTable.Races);
+    setRaceResults(response.data.MRData.RaceTable.Races[0].Results);
     response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
   };
 
   const handleQualyPress = () => {
-    console.log('ENTRO!');
+    setModalVisible(true);
+    setResultType('qualy');
   };
 
   const handleRacePress = () => {
-    console.log('ENTRO!');
+    setModalVisible(true);
+    setResultType('race');
   };
 
   const onBackPress = () => {
@@ -200,6 +207,11 @@ const Circuit = ({route, navigation}: any) => {
           </TextHighSpeed>
         </PlayButton>
       </PlayButtonWrapper>
+
+      <ResultsModal
+        visible={modalVisible}
+        data={resultType === 'qualy' ? qualyResults : raceResults}
+      />
     </MainWrapper>
   );
 };
