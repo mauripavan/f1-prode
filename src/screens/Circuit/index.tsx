@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
+import {useRecoilState} from 'recoil';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -13,18 +14,36 @@ import {
 } from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
 import {
+  AnimationLoader,
   BackButton,
   BackButtonWrapper,
   CircuitImage,
   HeaderWrapper,
+  LoadingWrapper,
   MainWrapper,
   PlayButton,
   PlayButtonWrapper,
   ResultCardWrapper,
 } from './styles';
+import {animations} from '../../../assets/animations';
+import ResultsModal from '../../components/ResultsModal';
+import {resultsModalState} from '../../store/app-state';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
+  const {data} = route.params;
+
+  const [circuitImage, setCircuitImage] = useState<any>();
+  const [qualyResults, setQualyResults] = useState([]);
+  const [qualyDisabled, setQualyDisabled] = useState(true);
+  const [raceResults, setRaceResults] = useState([]);
+  const [raceDisabled, setRaceDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useRecoilState(resultsModalState);
+  const [resultType, setResultType] = useState('');
+
+  const baseUrl = 'http://ergast.com/api/f1';
+
   const {
     abudhabiCircuit,
     australiaCircuit,
@@ -50,12 +69,6 @@ const Circuit = ({route, navigation}: any) => {
     bahrainCircuit,
     spainCircuit,
   } = images;
-
-  const {data} = route.params;
-
-  const onBackPress = () => {
-    navigation.goBack();
-  };
 
   const circuits: any = {
     yas_marina: abudhabiCircuit,
@@ -83,47 +96,57 @@ const Circuit = ({route, navigation}: any) => {
     catalunya: spainCircuit,
   };
 
-  const [circuitImage, setCircuitImage] = useState<any>();
-
   useEffect(() => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
-  }, []);
-
-  const [, setQualyResults] = useState([]);
-  const [qualyDisabled, setQualyDisabled] = useState(true);
-  const [, setRaceResults] = useState([]);
-  const [raceDisabled, setRaceDisabled] = useState(true);
-
-  const baseUrl = 'http://ergast.com/api/f1';
-
-  const getQualyResult = async () => {
-    const response = await axios.get(
-      `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
-    );
-    setQualyResults(response.data.MRData.RaceTable.Races);
-    response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
-  };
-
-  const getRaceResult = async () => {
-    const response = await axios.get(
-      `${baseUrl}/${data.season}/${data.round}/results.json`,
-    );
-    setRaceResults(response.data.MRData.RaceTable.Races);
-    response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
-  };
-
-  useEffect(() => {
     getQualyResult();
     getRaceResult();
   }, []);
 
+  const getQualyResult = async () => {
+    setLoading(true);
+    const response = await axios.get(
+      `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
+    );
+    setLoading(false);
+    setQualyResults(response.data.MRData.RaceTable.Races[0].QualifyingResults);
+    response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
+  };
+
+  const getRaceResult = async () => {
+    setLoading(true);
+    const response = await axios.get(
+      `${baseUrl}/${data.season}/${data.round}/results.json`,
+    );
+    setLoading(false);
+    setRaceResults(response.data.MRData.RaceTable.Races[0].Results);
+    response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
+  };
+
   const handleQualyPress = () => {
-    console.log('ENTRO!');
+    setModalVisible(true);
+    setResultType('qualy');
   };
 
   const handleRacePress = () => {
-    console.log('ENTRO!');
+    setModalVisible(true);
+    setResultType('race');
   };
+
+  const onBackPress = () => {
+    navigation.goBack();
+  };
+
+  if (loading) {
+    return (
+      <LoadingWrapper>
+        <AnimationLoader
+          autoPlay
+          duration={3000}
+          source={animations.loadingCar}
+        />
+      </LoadingWrapper>
+    );
+  }
 
   return (
     <MainWrapper>
@@ -184,6 +207,11 @@ const Circuit = ({route, navigation}: any) => {
           </TextHighSpeed>
         </PlayButton>
       </PlayButtonWrapper>
+
+      <ResultsModal
+        visible={modalVisible}
+        data={resultType === 'qualy' ? qualyResults : raceResults}
+      />
     </MainWrapper>
   );
 };
