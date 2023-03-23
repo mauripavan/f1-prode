@@ -148,6 +148,10 @@ const Circuit = ({route, navigation}: any) => {
     );
   }
 
+  const handlePlay = () => {
+    navigation.navigate('Play');
+  };
+
   return (
     <MainWrapper>
       <HeaderWrapper>
@@ -201,7 +205,7 @@ const Circuit = ({route, navigation}: any) => {
       </ResultCardWrapper>
       <Separator size={40} />
       <PlayButtonWrapper>
-        <PlayButton>
+        <PlayButton onPress={handlePlay}>
           <TextHighSpeed fontSize={18} color={colors.black}>
             Play
           </TextHighSpeed>
