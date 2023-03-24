@@ -6,6 +6,7 @@ import {useTheme} from 'styled-components';
 
 import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
+import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
 
@@ -72,9 +73,9 @@ const positions = [
   },
 ];
 
-const PlayScreen = () => {
+const PlayScreen = ({navigation}: any) => {
   const {colors} = useTheme();
-  const [, setDrivers] = useState<[]>();
+  const [drivers, setDrivers] = useState<[]>();
 
   const renderItem = ({item}: any) => {
     return <SelectDriver data={item} />;
@@ -82,31 +83,43 @@ const PlayScreen = () => {
 
   const getDrivers = async () => {
     const response = await axios.get(
-      `http://ergast.com/api/f1/2023/drivers.json`,
+      `http://ergast.com/api/f1/current/1/qualifying.json`,
     );
-    console.log('drivers response', response.data.MRData.DriverTable.Drivers);
-    setDrivers(response.data.MRData.DriverTable.Drivers);
+    console.log(
+      'drivers response',
+      response?.data.MRData.RaceTable.Races[0].QualifyingResults,
+    );
+    setDrivers(response?.data.MRData.RaceTable.Races[0].QualifyingResults);
   };
 
   useEffect(() => {
     getDrivers();
   }, []);
 
+  const hanldeBackPress = () => {
+    navigation.goBack();
+  };
+
   return (
-    <MainWrapper>
-      <HeaderWrapper>
-        <BackIcon source={icons.back} />
-        <TextHighSpeed color={colors.white} fontSize={16}>
-          F1 Prode
-        </TextHighSpeed>
-        <Pressable>
-          <TextFormula1R color={colors.white} fontSize={12}>
-            Save
-          </TextFormula1R>
-        </Pressable>
-      </HeaderWrapper>
-      <FlatList data={positions} renderItem={renderItem} numColumns={2} />
-    </MainWrapper>
+    <>
+      <MainWrapper>
+        <HeaderWrapper>
+          <Pressable onPress={hanldeBackPress}>
+            <BackIcon source={icons.back} />
+          </Pressable>
+          <TextHighSpeed color={colors.white} fontSize={16}>
+            F1 Prode
+          </TextHighSpeed>
+          <Pressable>
+            <TextFormula1R color={colors.white} fontSize={12}>
+              Save
+            </TextFormula1R>
+          </Pressable>
+        </HeaderWrapper>
+        <FlatList data={positions} renderItem={renderItem} numColumns={2} />
+        <SelectDriverModal driversData={drivers} />
+      </MainWrapper>
+    </>
   );
 };
 
