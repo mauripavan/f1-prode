@@ -1,6 +1,8 @@
 import React from 'react';
+import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 
+import {driversModalState} from '../../store/app-state';
 import Separator from '../Separator';
 import {TextFormula1B, TextFormula1R} from '../Typography';
 import {MainSelectDriver, MainWrapper} from './styles';
@@ -9,8 +11,14 @@ import {ISelecDriverProps} from './types';
 const SelectDriver = (props: ISelecDriverProps) => {
   const {data} = props;
   const {colors} = useTheme();
+  const [, setModalVisible] = useRecoilState(driversModalState);
+
+  const handleSelectDriverPress = () => {
+    setModalVisible(true);
+  };
+
   return (
-    <MainWrapper>
+    <MainWrapper onPress={handleSelectDriverPress}>
       <TextFormula1B color={colors.white}>{data.position}</TextFormula1B>
       <Separator size={10} />
       <MainSelectDriver>

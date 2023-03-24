@@ -24,3 +24,8 @@ export const resultsModalState = atom({
   key: 'ResultsModalState',
   default: false,
 });
+
+export const driversModalState = atom({
+  key: 'DriversModalState',
+  default: false,
+});

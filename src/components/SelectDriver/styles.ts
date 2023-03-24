@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 
 import {heightPixel} from '../../constants/metrics';
 
-export const MainWrapper = styled(View)`
+export const MainWrapper = styled(Pressable)`
   height: ${heightPixel(235)}px;
   width: 50%;
   justify-content: center;
