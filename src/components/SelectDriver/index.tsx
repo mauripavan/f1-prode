@@ -2,14 +2,15 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 
+import {pixelSizeHorizontal} from '../../constants/metrics';
 import {driversModalState} from '../../store/app-state';
 import Separator from '../Separator';
 import {TextFormula1B, TextFormula1R} from '../Typography';
-import {MainSelectDriver, MainWrapper} from './styles';
+import {BoxLine, MainSelectDriver, MainWrapper} from './styles';
 import {ISelecDriverProps} from './types';
 
 const SelectDriver = (props: ISelecDriverProps) => {
-  const {data} = props;
+  const {data, index} = props;
   const {colors} = useTheme();
   const [, setModalVisible] = useRecoilState(driversModalState);
 
@@ -18,14 +19,15 @@ const SelectDriver = (props: ISelecDriverProps) => {
   };
 
   return (
-    <MainWrapper onPress={handleSelectDriverPress}>
+    <MainWrapper onPress={handleSelectDriverPress} index={index}>
       <TextFormula1B color={colors.white}>{data.position}</TextFormula1B>
+      <Separator size={5} />
+      <BoxLine />
       <Separator size={10} />
       <MainSelectDriver>
         <TextFormula1B
-          numberOfLines={2}
           color={colors.gray[2]}
-          style={{paddingHorizontal: 40}}
+          style={{paddingHorizontal: pixelSizeHorizontal(18)}}
         >
           Select Driver
         </TextFormula1B>

@@ -77,8 +77,8 @@ const PlayScreen = ({navigation}: any) => {
   const {colors} = useTheme();
   const [drivers, setDrivers] = useState<[]>();
 
-  const renderItem = ({item}: any) => {
-    return <SelectDriver data={item} />;
+  const renderItem = ({item, index}: any) => {
+    return <SelectDriver data={item} index={index} />;
   };
 
   const getDrivers = async () => {

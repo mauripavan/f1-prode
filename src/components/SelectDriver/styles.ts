@@ -3,11 +3,17 @@ import {Pressable, View} from 'react-native';
 
 import {heightPixel} from '../../constants/metrics';
 
-export const MainWrapper = styled(Pressable)`
+interface IMainWrapperProps {
+  index: number;
+}
+
+export const MainWrapper = styled(Pressable)<IMainWrapperProps>`
   height: ${heightPixel(235)}px;
   width: 50%;
   justify-content: center;
   align-items: center;
+  margin-top: ${({index}) => (index % 2 == 1 ? 70 : 0)}px;
+  padding: 10px;
 `;
 
 export const MainSelectDriver = styled(View)`
@@ -19,4 +25,13 @@ export const MainSelectDriver = styled(View)`
   align-items: center;
   border-width: 2px;
   border-color: ${({theme}) => theme.colors.green[2]};
+`;
+
+export const BoxLine = styled(View)`
+  height: ${heightPixel(30)}px;
+  width: 100%;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-width: 2px;
+  border-color: ${({theme}) => theme.colors.white};
 `;
