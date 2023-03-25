@@ -2,80 +2,38 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
+import {useRecoilValue} from 'recoil';
 import {useTheme} from 'styled-components';
 
 import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
 import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
+import {positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
-
-const positions = [
-  {
-    position: '1st Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '2nd Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '3rd Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '4th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '5th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '6th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '7th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '8th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '9th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-  {
-    position: '10th Place',
-    name: '',
-    lasName: '',
-    team: '',
-  },
-];
 
 const PlayScreen = ({navigation}: any) => {
   const {colors} = useTheme();
-  const [drivers, setDrivers] = useState<[]>();
+  const [driversData, setDriversData] = useState([]);
+  const positions = useRecoilValue(positionsState);
+
+  useEffect(() => {
+    getDrivers();
+  }, []);
+
+  useEffect(() => {
+    driversData.sort(compare);
+  }, [driversData]);
+
+  function compare(a: any, b: any) {
+    if (a.Constructor.name < b.Constructor.name) {
+      return -1;
+    }
+    if (a.Constructor.name > b.Constructor.name) {
+      return 1;
+    }
+    return 0;
+  }
 
   const renderItem = ({item, index}: any) => {
     return <SelectDriver data={item} index={index} />;
@@ -85,16 +43,8 @@ const PlayScreen = ({navigation}: any) => {
     const response = await axios.get(
       `http://ergast.com/api/f1/current/1/qualifying.json`,
     );
-    console.log(
-      'drivers response',
-      response?.data.MRData.RaceTable.Races[0].QualifyingResults,
-    );
-    setDrivers(response?.data.MRData.RaceTable.Races[0].QualifyingResults);
+    setDriversData(response?.data.MRData.RaceTable.Races[0].QualifyingResults);
   };
-
-  useEffect(() => {
-    getDrivers();
-  }, []);
 
   const hanldeBackPress = () => {
     navigation.goBack();
@@ -117,7 +67,7 @@ const PlayScreen = ({navigation}: any) => {
           </Pressable>
         </HeaderWrapper>
         <FlatList data={positions} renderItem={renderItem} numColumns={2} />
-        <SelectDriverModal driversData={drivers} />
+        <SelectDriverModal driversData={driversData} />
       </MainWrapper>
     </>
   );

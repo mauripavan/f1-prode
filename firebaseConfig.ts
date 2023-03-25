@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore/lite';
+import {initializeApp} from 'firebase/app';
+import {getFirestore} from 'firebase/firestore/lite';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";

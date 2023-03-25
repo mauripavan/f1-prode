@@ -12,18 +12,6 @@ const SelectDriverModal = (props: ISelectDriverModalProps) => {
   const [modalVisible] = useRecoilState(driversModalState);
   const {driversData} = props;
 
-  function compare(a: any, b: any) {
-    if (a.Constructor.name < b.Constructor.name) {
-      return -1;
-    }
-    if (a.Constructor.name > b.Constructor.name) {
-      return 1;
-    }
-    return 0;
-  }
-
-  const newSortedDdata = driversData.sort(compare);
-
   const renderItem = ({item, index}: any) => {
     return (
       <DriverItem
@@ -41,7 +29,7 @@ const SelectDriverModal = (props: ISelectDriverModalProps) => {
         <MainModalWrapper>
           <SubModalWrapper>
             <FlatList
-              data={newSortedDdata}
+              data={driversData}
               renderItem={renderItem}
               showsHorizontalScrollIndicator={false}
               ListHeaderComponent={<FlatlistHeader />}
