@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Pressable, View} from 'react-native';
+import {Pressable, View, Image} from 'react-native';
 
 import {heightPixel} from '../../constants/metrics';
 
@@ -34,4 +34,10 @@ export const BoxLine = styled(View)`
   border-right-width: 2px;
   border-top-width: 2px;
   border-color: ${({theme}) => theme.colors.white};
+`;
+
+export const DriverImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  margin-top: 5px;
 `;

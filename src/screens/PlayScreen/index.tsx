@@ -59,24 +59,25 @@ const PlayScreen = ({navigation, route}: any) => {
     try {
       await setDoc(positionsRed, {
         positions: positions,
-      });
-      Toast.show('Positions saved', {
-        duration: Toast.durations.SHORT,
-        containerStyle: {
-          backgroundColor: colors.green[3],
-          width: '70%',
-          height: 55,
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: 100,
-          borderWidth: 1,
-          borderColor: colors.gray[2],
-        },
-        opacity: 1,
-        position: 100,
-        animation: true,
-        hideOnPress: true,
-      });
+      }).then(() =>
+        Toast.show('Positions saved', {
+          duration: Toast.durations.SHORT,
+          containerStyle: {
+            backgroundColor: colors.green[3],
+            width: '70%',
+            height: 55,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            borderWidth: 1,
+            borderColor: colors.gray[2],
+          },
+          opacity: 1,
+          position: 100,
+          animation: true,
+          hideOnPress: true,
+        }),
+      );
     } catch (e) {
       Toast.show('Something went worng. Please try again', {
         duration: Toast.durations.SHORT,

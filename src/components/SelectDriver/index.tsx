@@ -1,5 +1,4 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 
@@ -7,7 +6,7 @@ import {pixelSizeHorizontal} from '../../constants/metrics';
 import {driversModalState, positionIndexState} from '../../store/app-state';
 import Separator from '../Separator';
 import {TextFormula1B, TextFormula1R} from '../Typography';
-import {BoxLine, MainSelectDriver, MainWrapper} from './styles';
+import {BoxLine, DriverImage, MainSelectDriver, MainWrapper} from './styles';
 import {ISelecDriverProps} from './types';
 
 const SelectDriver = (props: ISelecDriverProps) => {
@@ -29,10 +28,7 @@ const SelectDriver = (props: ISelecDriverProps) => {
       <Separator size={10} />
       <MainSelectDriver>
         {data.image ? (
-          <Image
-            source={data.image}
-            style={{width: '100%', height: '100%', marginTop: 5}}
-          />
+          <DriverImage source={data.image} />
         ) : (
           <TextFormula1B
             color={colors.gray[2]}
