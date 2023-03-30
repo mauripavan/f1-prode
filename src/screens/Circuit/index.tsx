@@ -149,7 +149,7 @@ const Circuit = ({route, navigation}: any) => {
   }
 
   const handlePlay = () => {
-    navigation.navigate('Play');
+    navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
   };
 
   return (

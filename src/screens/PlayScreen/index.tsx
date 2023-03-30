@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 
 import {icons} from '../../../assets/icons';
@@ -12,10 +12,11 @@ import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
 import {positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
 
-const PlayScreen = ({navigation}: any) => {
+const PlayScreen = ({navigation, route}: any) => {
   const {colors} = useTheme();
   const [driversData, setDriversData] = useState([]);
-  const positions = useRecoilValue(positionsState);
+  const [positions] = useRecoilState(positionsState);
+  const {circuitId} = route.params;
 
   useEffect(() => {
     getDrivers();
@@ -67,7 +68,7 @@ const PlayScreen = ({navigation}: any) => {
           </Pressable>
         </HeaderWrapper>
         <FlatList data={positions} renderItem={renderItem} numColumns={2} />
-        <SelectDriverModal driversData={driversData} />
+        <SelectDriverModal driversData={driversData} circuitId={circuitId} />
       </MainWrapper>
     </>
   );

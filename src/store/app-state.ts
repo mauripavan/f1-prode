@@ -30,65 +30,70 @@ export const driversModalState = atom({
   default: false,
 });
 
+export const positionIndexState = atom({
+  key: 'PositionsIndexState',
+  default: 0,
+});
+
 export const positionsState = atom({
   key: 'PositionsState',
   default: [
     {
-      position: '1st Place',
+      position: 1,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '2nd Place',
+      position: 2,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '3rd Place',
+      position: 3,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '4th Place',
+      position: 4,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '5th Place',
+      position: 5,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '6th Place',
+      position: 6,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '7th Place',
+      position: 7,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '8th Place',
+      position: 8,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '9th Place',
+      position: 9,
       name: '',
       lasName: '',
       team: '',
     },
     {
-      position: '10th Place',
+      position: 10,
       name: '',
       lasName: '',
       team: '',
