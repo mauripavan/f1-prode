@@ -11,14 +11,18 @@ import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
 import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
-import {positionsState} from '../../store/app-state';
+import {editionState, positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
 import db from '../../../firebaseConfig';
+import Loading from '../../components/Loading';
+import {fontPixel} from '../../constants/metrics';
 
 const PlayScreen = ({navigation, route}: any) => {
   const {colors} = useTheme();
   const [driversData, setDriversData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [positions, setPositions] = useRecoilState(positionsState);
+  const [edition, setEdition] = useRecoilState(editionState);
   const {circuitId} = route.params;
 
   useEffect(() => {
@@ -59,26 +63,29 @@ const PlayScreen = ({navigation, route}: any) => {
     try {
       await setDoc(positionsRed, {
         positions: positions,
-      }).then(() =>
-        Toast.show('Positions saved', {
-          duration: Toast.durations.SHORT,
-          containerStyle: {
-            backgroundColor: colors.green[3],
-            width: '70%',
-            height: 55,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 100,
-            borderWidth: 1,
-            borderColor: colors.gray[2],
-          },
-          opacity: 1,
-          position: 100,
-          animation: true,
-          hideOnPress: true,
-        }),
-      );
+      })
+        .then(() => {
+          Toast.show('Positions saved', {
+            duration: Toast.durations.SHORT,
+            containerStyle: {
+              backgroundColor: colors.green[3],
+              width: '70%',
+              height: 55,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+              borderWidth: 1,
+              borderColor: colors.gray[2],
+            },
+            opacity: 1,
+            position: 100,
+            animation: true,
+            hideOnPress: true,
+          });
+        })
+        .then(() => setEdition(false));
     } catch (e) {
+      console.log('positions NOT saved!');
       Toast.show('Something went worng. Please try again', {
         duration: Toast.durations.SHORT,
         containerStyle: {
@@ -100,6 +107,7 @@ const PlayScreen = ({navigation, route}: any) => {
   };
 
   const getPositionsDB = async () => {
+    setLoading(true);
     const positionsRef = doc(db, 'races', circuitId);
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
@@ -109,11 +117,16 @@ const PlayScreen = ({navigation, route}: any) => {
     } else {
       return;
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     getPositionsDB();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -122,11 +135,14 @@ const PlayScreen = ({navigation, route}: any) => {
           <Pressable onPress={hanldeBackPress}>
             <BackIcon source={icons.back} />
           </Pressable>
-          <TextHighSpeed color={colors.white} fontSize={16}>
+          <TextHighSpeed color={colors.white} fontSize={fontPixel(16)}>
             F1 Prode
           </TextHighSpeed>
-          <Pressable onPress={handleSavePress}>
-            <TextFormula1R color={colors.white} fontSize={12}>
+          <Pressable disabled={!edition} onPress={handleSavePress}>
+            <TextFormula1R
+              color={edition ? colors.white : colors.gray[2]}
+              fontSize={12}
+            >
               Save
             </TextFormula1R>
           </Pressable>

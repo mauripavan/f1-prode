@@ -5,6 +5,7 @@ import {useTheme} from 'styled-components';
 import {images} from '../../../assets/images';
 import {
   driversModalState,
+  editionState,
   positionIndexState,
   positionsState,
 } from '../../store/app-state';
@@ -18,6 +19,7 @@ const DriverItem = (props: IDriverItemProps) => {
   const positionIndex = useRecoilValue(positionIndexState);
   const [positions, setPositions] = useRecoilState(positionsState);
   const [, setModalVisible] = useRecoilState(driversModalState);
+  const [, setEdition] = useRecoilState(editionState);
   const [disabled, setDisabled] = useState(false);
 
   const {
@@ -81,6 +83,7 @@ const DriverItem = (props: IDriverItemProps) => {
 
     setPositions(newList);
     setModalVisible(false);
+    setEdition(true);
   };
 
   const checkIfDisabled = () => {

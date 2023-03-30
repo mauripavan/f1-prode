@@ -35,6 +35,11 @@ export const positionIndexState = atom({
   default: 0,
 });
 
+export const editionState = atom({
+  key: 'EditionState',
+  default: false,
+});
+
 export const positionsState = atom({
   key: 'PositionsState',
   default: [
