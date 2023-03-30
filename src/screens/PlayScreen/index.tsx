@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Pressable} from 'react-native';
+import {Alert, Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
@@ -15,7 +15,7 @@ import {editionState, positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
 import db from '../../../firebaseConfig';
 import Loading from '../../components/Loading';
-import {fontPixel} from '../../constants/metrics';
+import {fontPixel, heightPixel} from '../../constants/metrics';
 
 const PlayScreen = ({navigation, route}: any) => {
   const {colors} = useTheme();
@@ -55,7 +55,13 @@ const PlayScreen = ({navigation, route}: any) => {
   };
 
   const hanldeBackPress = () => {
-    navigation.goBack();
+    edition
+      ? Alert.alert(
+          'Unsaved Changes',
+          'Please save your changes before going back',
+          [{text: 'Ok'}],
+        )
+      : navigation.goBack();
   };
 
   const handleSavePress = async () => {
@@ -70,7 +76,7 @@ const PlayScreen = ({navigation, route}: any) => {
             containerStyle: {
               backgroundColor: colors.green[3],
               width: '70%',
-              height: 55,
+              height: heightPixel(55),
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 100,
@@ -85,13 +91,12 @@ const PlayScreen = ({navigation, route}: any) => {
         })
         .then(() => setEdition(false));
     } catch (e) {
-      console.log('positions NOT saved!');
       Toast.show('Something went worng. Please try again', {
         duration: Toast.durations.SHORT,
         containerStyle: {
           backgroundColor: colors.red[1],
           width: '70%',
-          height: 55,
+          height: heightPixel(55),
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 100,
@@ -114,8 +119,6 @@ const PlayScreen = ({navigation, route}: any) => {
 
     if (filteredResult?.positions !== undefined) {
       setPositions(filteredResult?.positions);
-    } else {
-      return;
     }
     setLoading(false);
   };
