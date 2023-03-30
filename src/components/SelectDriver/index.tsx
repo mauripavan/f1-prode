@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 
@@ -27,12 +28,19 @@ const SelectDriver = (props: ISelecDriverProps) => {
       <BoxLine />
       <Separator size={10} />
       <MainSelectDriver>
-        <TextFormula1B
-          color={colors.gray[2]}
-          style={{paddingHorizontal: pixelSizeHorizontal(18)}}
-        >
-          Select Driver
-        </TextFormula1B>
+        {data.image ? (
+          <Image
+            source={data.image}
+            style={{width: '100%', height: '100%', marginTop: 5}}
+          />
+        ) : (
+          <TextFormula1B
+            color={colors.gray[2]}
+            style={{paddingHorizontal: pixelSizeHorizontal(18)}}
+          >
+            Select Driver
+          </TextFormula1B>
+        )}
       </MainSelectDriver>
       {data.name && <data className="team"></data> && (
         <>

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useTheme} from 'styled-components';
 
+import {images} from '../../../assets/images';
 import {
   driversModalState,
   positionIndexState,
@@ -19,6 +20,52 @@ const DriverItem = (props: IDriverItemProps) => {
   const [, setModalVisible] = useRecoilState(driversModalState);
   const [disabled, setDisabled] = useState(false);
 
+  const {
+    albonPofile,
+    alonsoProfile,
+    bottasProfile,
+    checoProfile,
+    devriesProfile,
+    gaslyProfile,
+    hamiltonProfile,
+    zhouProfile,
+    occonProfile,
+    sainzProfile,
+    norrisProfile,
+    russelProfile,
+    strollProfile,
+    leclercProfile,
+    tsunodaProfile,
+    piastriProfile,
+    sargeantProfile,
+    magnussenProfile,
+    hulkenbergProfile,
+    verstappenProfile,
+  } = images;
+
+  const drivers: any = {
+    Bottas: bottasProfile,
+    Zhou: zhouProfile,
+    Tsunoda: tsunodaProfile,
+    'de Vries': devriesProfile,
+    Ocon: occonProfile,
+    Gasly: gaslyProfile,
+    Alonso: alonsoProfile,
+    Stroll: strollProfile,
+    Leclerc: leclercProfile,
+    Sainz: sainzProfile,
+    Hülkenberg: hulkenbergProfile,
+    Magnussen: magnussenProfile,
+    Norris: norrisProfile,
+    Russell: russelProfile,
+    Hamilton: hamiltonProfile,
+    Verstappen: verstappenProfile,
+    Pérez: checoProfile,
+    Albon: albonPofile,
+    Sargeant: sargeantProfile,
+    Piastri: piastriProfile,
+  };
+
   function replaceItemAtIndex(arr: any, index: any, newValue: any) {
     return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
   }
@@ -29,6 +76,7 @@ const DriverItem = (props: IDriverItemProps) => {
       name: name,
       lastName: lastName,
       team: team,
+      image: drivers[lastName],
     });
 
     setPositions(newList);
