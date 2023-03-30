@@ -8,8 +8,10 @@ export const MainModalWrapper = styled(View)`
 `;
 
 export const SubModalWrapper = styled(View)`
-  background-color: ${({theme}) => theme.colors.white};
+  background-color: ${({theme}) => theme.colors.dark[2]};
   height: 60%;
   width: 90%;
   border-radius: 10px;
+  border-width: 1px;
+  border-color: ${({theme}) => theme.colors.green[2]};
 `;

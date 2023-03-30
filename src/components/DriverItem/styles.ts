@@ -9,5 +9,5 @@ export const MainWrapper = styled(Pressable)`
   justify-content: center;
   align-items: center;
   border-bottom-width: 1px;
-  border-bottom-color: ${({theme}) => theme.colors.gray[1]};
+  border-bottom-color: ${({theme}) => theme.colors.dark[1]};
 `;
