@@ -4,6 +4,7 @@ import {Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
+import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
 
 import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
@@ -11,11 +12,12 @@ import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
 import {positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
+import db from '../../../firebaseConfig';
 
 const PlayScreen = ({navigation, route}: any) => {
   const {colors} = useTheme();
   const [driversData, setDriversData] = useState([]);
-  const [positions] = useRecoilState(positionsState);
+  const [positions, setPositions] = useRecoilState(positionsState);
   const {circuitId} = route.params;
 
   useEffect(() => {
@@ -51,6 +53,34 @@ const PlayScreen = ({navigation, route}: any) => {
     navigation.goBack();
   };
 
+  const handleSavePress = async () => {
+    const positionsRed = doc(db, 'races', circuitId);
+    try {
+      await setDoc(positionsRed, {
+        positions: positions,
+      });
+      console.log('data saved successfully');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getPositionsDB = async () => {
+    const positionsRef = doc(db, 'races', circuitId);
+    const result = await getDoc(positionsRef);
+    const filteredResult = result.data();
+
+    if (filteredResult?.positions !== undefined) {
+      setPositions(filteredResult?.positions);
+    } else {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getPositionsDB();
+  }, []);
+
   return (
     <>
       <MainWrapper>
@@ -61,7 +91,7 @@ const PlayScreen = ({navigation, route}: any) => {
           <TextHighSpeed color={colors.white} fontSize={16}>
             F1 Prode
           </TextHighSpeed>
-          <Pressable>
+          <Pressable onPress={handleSavePress}>
             <TextFormula1R color={colors.white} fontSize={12}>
               Save
             </TextFormula1R>
