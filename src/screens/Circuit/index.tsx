@@ -14,20 +14,18 @@ import {
 } from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
 import {
-  AnimationLoader,
   BackButton,
   BackButtonWrapper,
   CircuitImage,
   HeaderWrapper,
-  LoadingWrapper,
   MainWrapper,
   PlayButton,
   PlayButtonWrapper,
   ResultCardWrapper,
 } from './styles';
-import {animations} from '../../../assets/animations';
 import ResultsModal from '../../components/ResultsModal';
 import {resultsModalState} from '../../store/app-state';
+import Loading from '../../components/Loading';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
@@ -137,15 +135,7 @@ const Circuit = ({route, navigation}: any) => {
   };
 
   if (loading) {
-    return (
-      <LoadingWrapper>
-        <AnimationLoader
-          autoPlay
-          duration={3000}
-          source={animations.loadingCar}
-        />
-      </LoadingWrapper>
-    );
+    return <Loading />;
   }
 
   const handlePlay = () => {

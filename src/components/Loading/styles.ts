@@ -15,6 +15,6 @@ export const SubWrapper = styled(View)`
   align-content: center;
   background-color: ${({theme}) => theme.colors.dark[2]};
   border-radius: 200px;
-  border-width: 1px;
-  border-color: ${({theme}) => theme.colors.gray[2]};
+  border-width: 6px;
+  border-color: ${({theme}) => theme.colors.gray[4]};
 `;
