@@ -20,6 +20,9 @@ const _routes = {
   Play: {
     name: 'Play',
     screen: PlayScreen,
+    screenNavigationOptions: {
+      gestureEnabled: false,
+    },
   },
 };
 
