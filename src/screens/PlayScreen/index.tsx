@@ -5,6 +5,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {useRecoilState} from 'recoil';
 import {useTheme} from 'styled-components';
 import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
+import Toast from 'react-native-root-toast';
 
 import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
@@ -59,9 +60,41 @@ const PlayScreen = ({navigation, route}: any) => {
       await setDoc(positionsRed, {
         positions: positions,
       });
-      console.log('data saved successfully');
+      Toast.show('Positions saved', {
+        duration: Toast.durations.SHORT,
+        containerStyle: {
+          backgroundColor: colors.green[3],
+          width: '70%',
+          height: 55,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 100,
+          borderWidth: 1,
+          borderColor: colors.gray[2],
+        },
+        opacity: 1,
+        position: 100,
+        animation: true,
+        hideOnPress: true,
+      });
     } catch (e) {
-      console.error(e);
+      Toast.show('Something went worng. Please try again', {
+        duration: Toast.durations.SHORT,
+        containerStyle: {
+          backgroundColor: colors.red[1],
+          width: '70%',
+          height: 55,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 100,
+          borderWidth: 1,
+          borderColor: colors.red[1],
+        },
+        opacity: 1,
+        position: 100,
+        animation: true,
+        hideOnPress: true,
+      });
     }
   };
 
