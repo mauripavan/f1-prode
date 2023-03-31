@@ -4,6 +4,7 @@ import {StatusBarStyle} from 'react-native';
 
 import Menu from '../menu/Menu';
 import Circuit from '../../screens/Circuit';
+import PlayScreen from '../../screens/PlayScreen';
 
 type RouteKeys = keyof typeof _routes;
 
@@ -15,6 +16,13 @@ const _routes = {
   Circuit: {
     name: 'Circuit',
     screen: Circuit,
+  },
+  Play: {
+    name: 'Play',
+    screen: PlayScreen,
+    screenNavigationOptions: {
+      gestureEnabled: false,
+    },
   },
 };
 

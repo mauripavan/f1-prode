@@ -8,10 +8,10 @@ import {IResultItemProps} from './types';
 
 const ResultItem = (props: IResultItemProps) => {
   const {colors} = useTheme();
-  const {data} = props;
+  const {data, index} = props;
 
   return (
-    <MainWrapper>
+    <MainWrapper index={index}>
       <TextFormula1R color={colors.white} style={{flex: 1}}>
         {data.position}
       </TextFormula1R>

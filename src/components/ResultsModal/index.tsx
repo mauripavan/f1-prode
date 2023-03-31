@@ -32,8 +32,8 @@ const ResultsModal = (props: IResultsModalProps) => {
     setModalVisible(false);
   };
 
-  const renderItem = ({item}: any) => {
-    return <ResultItem data={item} />;
+  const renderItem = ({item, index}: any) => {
+    return <ResultItem data={item} key={index} index={index} />;
   };
 
   return (

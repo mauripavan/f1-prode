@@ -1,17 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StatusBar, FlatList} from 'react-native';
 import axios from 'axios';
-import {useTheme} from 'styled-components';
 
 import RaceCard from '../../components/RaceCard';
 import Separator from '../../components/Separator';
-import {
-  AnimationLoader,
-  FlatListWrapper,
-  LoadingWrapper,
-  MainWrapper,
-} from './styles';
-import {animations} from '../../../assets/animations';
+import {FlatListWrapper, MainWrapper} from './styles';
+import Loading from '../../components/Loading';
 
 const Home = () => {
   useEffect(() => {
@@ -20,8 +14,6 @@ const Home = () => {
 
   const [races, setRaces] = useState<any>({});
   const [loading, setLoading] = useState(false);
-
-  const {colors} = useTheme();
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -41,22 +33,7 @@ const Home = () => {
   };
 
   if (loading) {
-    return (
-      <LoadingWrapper
-        style={{
-          backgroundColor: colors.black,
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <AnimationLoader
-          autoPlay
-          duration={3000}
-          source={animations.loadingCar}
-        />
-      </LoadingWrapper>
-    );
+    return <Loading />;
   }
 
   return (

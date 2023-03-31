@@ -51,10 +51,16 @@ export const ResultCardWrapper = styled(View)`
 export const PlayButtonWrapper = styled(View)`
   padding-horizontal: ${pixelSizeHorizontal(40)}px;
 `;
-export const PlayButton = styled(Pressable)`
+
+interface IPlayButtonProps {
+  isPlayEnabled: boolean;
+}
+
+export const PlayButton = styled(Pressable)<IPlayButtonProps>`
   height: ${heightPixel(50)}px;
   width: 100%;
-  background-color: ${({theme}) => theme.colors.yellow[1]};
+  background-color: ${({theme, isPlayEnabled}) =>
+    isPlayEnabled ? theme.colors.yellow[1] : theme.colors.green[3]};
   justify-content: center;
   align-items: center;
   border-radius: 10px;
