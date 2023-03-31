@@ -2,6 +2,79 @@ import {atom} from 'recoil';
 
 import {User} from '../types/user';
 
+export const defaultPositions = [
+  {
+    position: 1,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 2,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 3,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 4,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 5,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 6,
+    name: '',
+    latName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 7,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 8,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 9,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+  {
+    position: 10,
+    name: '',
+    lastName: '',
+    team: '',
+    image: '',
+  },
+];
+
 export const InitialUserState: User = {
   id: '',
   firstName: '',
@@ -42,76 +115,5 @@ export const editionState = atom({
 
 export const positionsState = atom({
   key: 'PositionsState',
-  default: [
-    {
-      position: 1,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 2,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 3,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 4,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 5,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 6,
-      name: '',
-      latName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 7,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 8,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 9,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-    {
-      position: 10,
-      name: '',
-      lastName: '',
-      team: '',
-      image: '',
-    },
-  ],
+  default: defaultPositions,
 });

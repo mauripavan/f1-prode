@@ -24,7 +24,11 @@ import {
   ResultCardWrapper,
 } from './styles';
 import ResultsModal from '../../components/ResultsModal';
-import {resultsModalState} from '../../store/app-state';
+import {
+  defaultPositions,
+  positionsState,
+  resultsModalState,
+} from '../../store/app-state';
 import Loading from '../../components/Loading';
 
 const Circuit = ({route, navigation}: any) => {
@@ -38,6 +42,7 @@ const Circuit = ({route, navigation}: any) => {
   const [raceDisabled, setRaceDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useRecoilState(resultsModalState);
+  const [, setPositions] = useRecoilState(positionsState);
   const [resultType, setResultType] = useState('');
 
   const baseUrl = 'http://ergast.com/api/f1';
@@ -96,28 +101,30 @@ const Circuit = ({route, navigation}: any) => {
 
   useEffect(() => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
-    getQualyResult();
-    getRaceResult();
+    getResults();
   }, []);
 
-  const getQualyResult = async () => {
+  const getResults = async () => {
     setLoading(true);
-    const response = await axios.get(
+
+    const qualyResponse = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/qualifying.json`,
     );
-    setLoading(false);
-    setQualyResults(response.data.MRData.RaceTable.Races[0].QualifyingResults);
-    response?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
-  };
+    setQualyResults(
+      qualyResponse.data.MRData.RaceTable.Races[0].QualifyingResults,
+    );
+    qualyResponse?.data?.MRData?.RaceTable?.Races[0] && setQualyDisabled(false);
 
-  const getRaceResult = async () => {
-    setLoading(true);
-    const response = await axios.get(
+    const raceResponse = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/results.json`,
     );
+    setRaceResults(raceResponse.data.MRData.RaceTable.Races[0].Results);
+    if (raceResponse?.data?.MRData?.RaceTable?.Races[0]) {
+      setRaceDisabled(false);
+      setPositions(defaultPositions);
+    }
+
     setLoading(false);
-    setRaceResults(response.data.MRData.RaceTable.Races[0].Results);
-    response?.data?.MRData?.RaceTable?.Races[0] && setRaceDisabled(false);
   };
 
   const handleQualyPress = () => {
@@ -134,13 +141,17 @@ const Circuit = ({route, navigation}: any) => {
     navigation.goBack();
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
   const handlePlay = () => {
     navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
   };
+
+  const handleScore = () => {
+    console.log('CHECKING SCOREE!!');
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <MainWrapper>
@@ -195,11 +206,19 @@ const Circuit = ({route, navigation}: any) => {
       </ResultCardWrapper>
       <Separator size={40} />
       <PlayButtonWrapper>
-        <PlayButton onPress={handlePlay}>
-          <TextHighSpeed fontSize={18} color={colors.black}>
-            Play
-          </TextHighSpeed>
-        </PlayButton>
+        {raceDisabled ? (
+          <PlayButton isPlayEnabled={raceDisabled} onPress={handlePlay}>
+            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
+              Play
+            </TextFormula1B>
+          </PlayButton>
+        ) : (
+          <PlayButton isPlayEnabled={raceDisabled} onPress={handleScore}>
+            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
+              Check your score
+            </TextFormula1B>
+          </PlayButton>
+        )}
       </PlayButtonWrapper>
 
       <ResultsModal
