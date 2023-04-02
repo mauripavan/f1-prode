@@ -16,6 +16,7 @@ export const colors = {
   },
   yellow: {
     1: '#F8FF31',
+    2: 'rgba(	248, 255, 49, 0.2)',
   },
   blue: {
     1: '#95E5D0',

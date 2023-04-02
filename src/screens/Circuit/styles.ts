@@ -52,20 +52,16 @@ export const PlayButtonWrapper = styled(View)`
   padding-horizontal: ${pixelSizeHorizontal(40)}px;
 `;
 
-interface IPlayButtonProps {
-  isPlayEnabled: boolean;
-}
-
-export const PlayButton = styled(Pressable)<IPlayButtonProps>`
+export const PlayButton = styled(Pressable)`
   height: ${heightPixel(50)}px;
   width: 100%;
-  background-color: ${({theme, isPlayEnabled}) =>
-    isPlayEnabled ? theme.colors.yellow[1] : theme.colors.green[3]};
+  background-color: ${({theme, disabled}) =>
+    disabled ? theme.colors.yellow[2] : theme.colors.yellow[1]};
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   border-width: 1px;
-  border-color: ${({theme}) => theme.colors.gray[0]};
+  border-color: ${({theme}) => theme.colors.gray[2]};
   padding-horizontal: ${pixelSizeHorizontal(40)}px;
 `;
 

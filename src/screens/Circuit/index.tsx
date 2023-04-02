@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
 import {useRecoilState} from 'recoil';
+import {doc, getDoc} from 'firebase/firestore/lite';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -30,6 +31,8 @@ import {
   resultsModalState,
 } from '../../store/app-state';
 import Loading from '../../components/Loading';
+import SeeResultsModal from '../../components/SeeResultsModal';
+import db from '../../../firebaseConfig';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
@@ -44,6 +47,7 @@ const Circuit = ({route, navigation}: any) => {
   const [modalVisible, setModalVisible] = useRecoilState(resultsModalState);
   const [, setPositions] = useRecoilState(positionsState);
   const [resultType, setResultType] = useState('');
+  const [myPositions, setMyPositions] = useState([]);
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -102,6 +106,7 @@ const Circuit = ({route, navigation}: any) => {
   useEffect(() => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
     getResults();
+    getPositionsDB();
   }, []);
 
   const getResults = async () => {
@@ -118,13 +123,25 @@ const Circuit = ({route, navigation}: any) => {
     const raceResponse = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/results.json`,
     );
-    setRaceResults(raceResponse.data.MRData.RaceTable.Races[0].Results);
     if (raceResponse?.data?.MRData?.RaceTable?.Races[0]) {
+      setRaceResults(raceResponse.data.MRData.RaceTable.Races[0].Results);
       setRaceDisabled(false);
       setPositions(defaultPositions);
     }
 
     setLoading(false);
+  };
+
+  const getPositionsDB = async () => {
+    if (!raceResults) return;
+
+    const positionsRef = doc(db, 'races', data.Circuit.circuitId);
+    const result = await getDoc(positionsRef);
+    const filteredResult = result.data();
+
+    if (filteredResult?.positions !== undefined) {
+      setMyPositions(filteredResult?.positions);
+    }
   };
 
   const handleQualyPress = () => {
@@ -143,10 +160,6 @@ const Circuit = ({route, navigation}: any) => {
 
   const handlePlay = () => {
     navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
-  };
-
-  const handleScore = () => {
-    console.log('CHECKING SCOREE!!');
   };
 
   if (loading) {
@@ -206,21 +219,14 @@ const Circuit = ({route, navigation}: any) => {
       </ResultCardWrapper>
       <Separator size={40} />
       <PlayButtonWrapper>
-        {raceDisabled ? (
-          <PlayButton isPlayEnabled={raceDisabled} onPress={handlePlay}>
-            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
-              Play
-            </TextFormula1B>
-          </PlayButton>
-        ) : (
-          <PlayButton isPlayEnabled={raceDisabled} onPress={handleScore}>
-            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
-              Check your score
-            </TextFormula1B>
-          </PlayButton>
-        )}
+        <PlayButton disabled={!raceDisabled} onPress={handlePlay}>
+          <TextHighSpeed fontSize={fontPixel(14)} color={colors.black}>
+            Play
+          </TextHighSpeed>
+        </PlayButton>
       </PlayButtonWrapper>
-
+      <Separator size={30} />
+      <SeeResultsModal visible={true} data={myPositions} />
       <ResultsModal
         visible={modalVisible}
         data={resultType === 'qualy' ? qualyResults : raceResults}
