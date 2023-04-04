@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
 import {useRecoilState} from 'recoil';
+import {doc, getDoc} from 'firebase/firestore/lite';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -30,6 +31,8 @@ import {
   resultsModalState,
 } from '../../store/app-state';
 import Loading from '../../components/Loading';
+import SeeResultsModal from '../../components/SeeResultsModal';
+import db from '../../../firebaseConfig';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
@@ -44,6 +47,7 @@ const Circuit = ({route, navigation}: any) => {
   const [modalVisible, setModalVisible] = useRecoilState(resultsModalState);
   const [, setPositions] = useRecoilState(positionsState);
   const [resultType, setResultType] = useState('');
+  const [myPositions, setMyPositions] = useState([]);
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -102,6 +106,7 @@ const Circuit = ({route, navigation}: any) => {
   useEffect(() => {
     setCircuitImage(circuits[data.Circuit.circuitId]);
     getResults();
+    getPositionsDB();
   }, []);
 
   const getResults = async () => {
@@ -118,13 +123,24 @@ const Circuit = ({route, navigation}: any) => {
     const raceResponse = await axios.get(
       `${baseUrl}/${data.season}/${data.round}/results.json`,
     );
-    setRaceResults(raceResponse.data.MRData.RaceTable.Races[0].Results);
     if (raceResponse?.data?.MRData?.RaceTable?.Races[0]) {
+      setRaceResults(raceResponse.data.MRData.RaceTable.Races[0].Results);
       setRaceDisabled(false);
       setPositions(defaultPositions);
     }
 
     setLoading(false);
+  };
+
+  const getPositionsDB = async () => {
+    if (!raceResults) return;
+
+    const positionsRef = doc(db, 'races', data.Circuit.circuitId);
+    const result = await getDoc(positionsRef);
+    const filteredResult = result.data();
+    if (filteredResult?.positions !== undefined) {
+      setMyPositions(filteredResult?.positions);
+    }
   };
 
   const handleQualyPress = () => {
@@ -145,87 +161,80 @@ const Circuit = ({route, navigation}: any) => {
     navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
   };
 
-  const handleScore = () => {
-    console.log('CHECKING SCOREE!!');
-  };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <MainWrapper>
-      <HeaderWrapper>
-        <BackButtonWrapper onPress={onBackPress}>
-          <BackButton source={icons.back} />
-        </BackButtonWrapper>
-        <TextHighSpeed color={colors.white} fontSize={fontPixel(16)}>
-          F1 Prode
-        </TextHighSpeed>
-      </HeaderWrapper>
-      <Separator size={50} />
-      <TextFormula1B
-        fontSize={fontPixel(22)}
-        color={colors.white}
-        style={{textAlign: 'center'}}
-      >
-        {data.raceName}
-      </TextFormula1B>
-      <TextFormula1B
-        fontSize={fontPixel(24)}
-        color={colors.red[1]}
-        style={{textAlign: 'center'}}
-      >
-        {data.season}
-      </TextFormula1B>
-      <Separator size={30} />
-      <CircuitImage source={circuitImage} />
-      <Separator size={20} />
+    <>
+      <MainWrapper>
+        <HeaderWrapper>
+          <BackButtonWrapper onPress={onBackPress}>
+            <BackButton source={icons.back} />
+          </BackButtonWrapper>
+          <TextHighSpeed color={colors.white} fontSize={fontPixel(16)}>
+            F1 Prode
+          </TextHighSpeed>
+        </HeaderWrapper>
+        <Separator size={50} />
+        <TextFormula1B
+          fontSize={fontPixel(22)}
+          color={colors.white}
+          style={{textAlign: 'center'}}
+        >
+          {data.raceName}
+        </TextFormula1B>
+        <TextFormula1B
+          fontSize={fontPixel(24)}
+          color={colors.red[1]}
+          style={{textAlign: 'center'}}
+        >
+          {data.season}
+        </TextFormula1B>
+        <Separator size={30} />
+        <CircuitImage source={circuitImage} />
+        <Separator size={20} />
 
-      <TextFormula1R
-        color={colors.white}
-        fontSize={18}
-        style={{textAlign: 'center'}}
-      >
-        {data.Circuit.circuitName}
-      </TextFormula1R>
-      <Separator size={40} />
-      <ResultCardWrapper>
-        <ResultsCard
-          name={'Qualifying Results'}
-          icon={icons.tyre}
-          onPress={handleQualyPress}
-          disabled={qualyDisabled}
-        />
-        <ResultsCard
-          name={'Race Results'}
-          icon={icons.raceFlag}
-          onPress={handleRacePress}
-          disabled={raceDisabled}
-        />
-      </ResultCardWrapper>
-      <Separator size={40} />
-      <PlayButtonWrapper>
-        {raceDisabled ? (
-          <PlayButton isPlayEnabled={raceDisabled} onPress={handlePlay}>
-            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
+        <TextFormula1R
+          color={colors.white}
+          fontSize={18}
+          style={{textAlign: 'center'}}
+        >
+          {data.Circuit.circuitName}
+        </TextFormula1R>
+        <Separator size={40} />
+        <ResultCardWrapper>
+          <ResultsCard
+            name={'Qualifying Results'}
+            icon={icons.tyre}
+            onPress={handleQualyPress}
+            disabled={qualyDisabled}
+          />
+          <ResultsCard
+            name={'Race Results'}
+            icon={icons.raceFlag}
+            onPress={handleRacePress}
+            disabled={raceDisabled}
+          />
+        </ResultCardWrapper>
+        <Separator size={40} />
+        <PlayButtonWrapper>
+          <PlayButton disabled={!raceDisabled} onPress={handlePlay}>
+            <TextHighSpeed fontSize={fontPixel(14)} color={colors.black}>
               Play
-            </TextFormula1B>
+            </TextHighSpeed>
           </PlayButton>
-        ) : (
-          <PlayButton isPlayEnabled={raceDisabled} onPress={handleScore}>
-            <TextFormula1B fontSize={fontPixel(16)} color={colors.black}>
-              Check your score
-            </TextFormula1B>
-          </PlayButton>
-        )}
-      </PlayButtonWrapper>
-
-      <ResultsModal
-        visible={modalVisible}
-        data={resultType === 'qualy' ? qualyResults : raceResults}
-      />
-    </MainWrapper>
+        </PlayButtonWrapper>
+        <Separator size={30} />
+        <ResultsModal
+          visible={modalVisible}
+          data={resultType === 'qualy' ? qualyResults : raceResults}
+        />
+      </MainWrapper>
+      {myPositions[0] !== undefined && (
+        <SeeResultsModal data={myPositions} raceResults={raceResults} />
+      )}
+    </>
   );
 };
 
