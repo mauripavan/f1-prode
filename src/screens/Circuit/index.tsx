@@ -138,7 +138,6 @@ const Circuit = ({route, navigation}: any) => {
     const positionsRef = doc(db, 'races', data.Circuit.circuitId);
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
-
     if (filteredResult?.positions !== undefined) {
       setMyPositions(filteredResult?.positions);
     }
@@ -232,7 +231,9 @@ const Circuit = ({route, navigation}: any) => {
           data={resultType === 'qualy' ? qualyResults : raceResults}
         />
       </MainWrapper>
-      {myPositions[0] !== undefined && <SeeResultsModal data={myPositions} />}
+      {myPositions[0] !== undefined && (
+        <SeeResultsModal data={myPositions} raceResults={raceResults} />
+      )}
     </>
   );
 };

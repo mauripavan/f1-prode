@@ -1,4 +1,4 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Dimensions, FlatList, View} from 'react-native';
 import {useTheme} from 'styled-components';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -11,15 +11,43 @@ import {IResultsModalProps} from './types';
 
 const SeeResultsModal = (props: IResultsModalProps) => {
   const {colors} = useTheme();
-  const {data} = props;
+  const {data, raceResults} = props;
+  const [score, setScore] = useState<any>([]);
+  const [totalScore, setTotalScore] = useState(0);
 
   const renderItem = ({item, index}: any) => {
-    return <FinalScoreItem data={item} key={index} index={index} />;
+    return (
+      <FinalScoreItem data={item} key={index} index={index} score={score} />
+    );
   };
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const snapPoints = useMemo(() => ['10%', '65%'], []);
+
+  useEffect(() => {
+    compareArrays(raceResults, data);
+  }, []);
+
+  const compareArrays = (a: any[], b: any[]) => {
+    const newResultsArray = a.slice(0, 10);
+    const scoreArray = [];
+    let totalScore = 0;
+    if (newResultsArray == undefined) return;
+    else {
+      for (let i = 0; i < newResultsArray.length; i++) {
+        if (newResultsArray[i].Driver.familyName == b[i].lastName) {
+          scoreArray.push(...score, true);
+          totalScore += 10;
+        } else {
+          scoreArray.push(...score, false);
+        }
+      }
+      console.log('scoreArray: ', scoreArray);
+      setScore(scoreArray);
+      setTotalScore(totalScore);
+    }
+  };
 
   return (
     <BottomSheet
@@ -45,7 +73,7 @@ const SeeResultsModal = (props: IResultsModalProps) => {
         </TextFormula1R>
         <Separator size={10} />
         <TextFormula1B color={colors.green[2]} fontSize={fontPixel(16)}>
-          50 pts
+          {totalScore} pts
         </TextFormula1B>
       </View>
       <Separator size={20} />

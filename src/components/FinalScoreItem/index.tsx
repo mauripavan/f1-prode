@@ -8,7 +8,7 @@ import {IFinalScoreItemProps} from './types';
 
 const FinalScoreItem = (props: IFinalScoreItemProps) => {
   const {colors} = useTheme();
-  const {data, index} = props;
+  const {data, index, score} = props;
 
   return (
     <MainWrapper index={index}>
@@ -22,11 +22,11 @@ const FinalScoreItem = (props: IFinalScoreItemProps) => {
         {data.team}
       </TextFormula1R>
       <TextFormula1R
-        color={colors.white}
+        color={score[index] ? colors.green[2] : colors.red[1]}
         fontSize={fontPixel(10)}
-        style={{flex: 2}}
+        style={{flex: 2, textAlign: 'center'}}
       >
-        10
+        {score[index] ? 10 : 0}
       </TextFormula1R>
     </MainWrapper>
   );
