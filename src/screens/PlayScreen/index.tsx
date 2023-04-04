@@ -55,13 +55,16 @@ const PlayScreen = ({navigation, route}: any) => {
   };
 
   const hanldeBackPress = () => {
-    edition
-      ? Alert.alert(
-          'Unsaved Changes',
-          'Please save your changes before going back',
-          [{text: 'Ok'}],
-        )
-      : navigation.goBack();
+    const completedPositions = positions.filter((elem) => elem.name);
+    if (edition || completedPositions.length < 10) {
+      Alert.alert(
+        'Unsaved Changes',
+        'Please complete all the positions and save your changes before going back',
+        [{text: 'OK'}],
+      );
+    } else {
+      navigation.goBack();
+    }
   };
 
   const handleSavePress = async () => {
@@ -91,7 +94,7 @@ const PlayScreen = ({navigation, route}: any) => {
         })
         .then(() => setEdition(false));
     } catch (e) {
-      Toast.show('Something went worng. Please try again', {
+      Toast.show('Something failed. Try again', {
         duration: Toast.durations.SHORT,
         containerStyle: {
           backgroundColor: colors.red[1],
