@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
 import {useRecoilState} from 'recoil';
 import {doc, getDoc} from 'firebase/firestore/lite';
+import {differenceInMinutes} from 'date-fns';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -161,6 +162,14 @@ const Circuit = ({route, navigation}: any) => {
     navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
   };
 
+  const checkPlayAvailable = () => {
+    const today = new Date();
+    const raceTime = new Date(`${data.date}T${data.time}`);
+    const result = differenceInMinutes(raceTime, today);
+    if (result < 1) return true;
+    return false;
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -219,7 +228,7 @@ const Circuit = ({route, navigation}: any) => {
         </ResultCardWrapper>
         <Separator size={40} />
         <PlayButtonWrapper>
-          <PlayButton disabled={!raceDisabled} onPress={handlePlay}>
+          <PlayButton disabled={checkPlayAvailable()} onPress={handlePlay}>
             <TextHighSpeed fontSize={fontPixel(14)} color={colors.black}>
               Play
             </TextHighSpeed>
