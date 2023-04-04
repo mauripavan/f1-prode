@@ -33,7 +33,7 @@ import {
 } from '../../store/app-state';
 import Loading from '../../components/Loading';
 import SeeResultsModal from '../../components/SeeResultsModal';
-import db from '../../../firebaseConfig';
+import {db} from '../../../firebaseConfig';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();

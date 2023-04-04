@@ -13,7 +13,7 @@ import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
 import {editionState, positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
-import db from '../../../firebaseConfig';
+import {db} from '../../../firebaseConfig';
 import Loading from '../../components/Loading';
 import {fontPixel, heightPixel} from '../../constants/metrics';
 
