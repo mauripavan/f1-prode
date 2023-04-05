@@ -33,11 +33,12 @@ import {
 } from '../../store/app-state';
 import Loading from '../../components/Loading';
 import SeeResultsModal from '../../components/SeeResultsModal';
-import {db} from '../../../firebaseConfig';
+import {firebase} from '../../../firebaseConfig';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
   const {data} = route.params;
+  const {db} = firebase;
 
   const [circuitImage, setCircuitImage] = useState<any>();
   const [qualyResults, setQualyResults] = useState([]);

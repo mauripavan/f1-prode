@@ -13,7 +13,7 @@ import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
 import {editionState, positionsState} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
-import {db} from '../../../firebaseConfig';
+import {firebase} from '../../../firebaseConfig';
 import Loading from '../../components/Loading';
 import {fontPixel, heightPixel} from '../../constants/metrics';
 
@@ -24,6 +24,7 @@ const PlayScreen = ({navigation, route}: any) => {
   const [positions, setPositions] = useRecoilState(positionsState);
   const [edition, setEdition] = useRecoilState(editionState);
   const {circuitId} = route.params;
+  const {db} = firebase;
 
   useEffect(() => {
     getDrivers();
