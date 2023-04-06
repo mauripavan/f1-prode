@@ -10,8 +10,6 @@ export interface IButtonProps extends TouchableOpacityProps {
 
 export enum ButtonVariants {
   Primary = 'Primary',
-  Secondary = 'Secondary',
   Disabled = 'Disabled',
-  Light = 'Light',
-  Dark = 'Dark',
+  Secondary = 'Secondary',
 }

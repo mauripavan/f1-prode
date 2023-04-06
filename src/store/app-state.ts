@@ -1,7 +1,5 @@
 import {atom} from 'recoil';
 
-import {User} from '../types/user';
-
 export const defaultPositions = [
   {
     position: 1,
@@ -75,22 +73,9 @@ export const defaultPositions = [
   },
 ];
 
-export const InitialUserState: User = {
-  id: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  team: '',
-};
-
 export const currentUserState = atom({
   key: 'CurrentUser',
-  default: InitialUserState,
-});
-
-export const userConfigState = atom({
-  key: 'UserConfigState',
-  default: false,
+  default: undefined,
 });
 
 export const resultsModalState = atom({

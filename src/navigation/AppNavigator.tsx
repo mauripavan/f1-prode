@@ -1,14 +1,27 @@
-import React from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {useEffect} from 'react';
+import {useRecoilState} from 'recoil';
 
-import {userConfigState} from '../store/app-state';
+import {firebase} from '../../firebaseConfig';
+import {currentUserState} from '../store/app-state';
 import AuthController from './auth/AuthController';
 import HomeController from './home/HomeController';
 
 const Navigation = () => {
-  const userConfig = useRecoilValue(userConfigState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-  return userConfig ? <HomeController /> : <AuthController />;
+  const {auth} = firebase;
+
+  useEffect(() => {
+    const unsuscribe = auth.onAuthStateChanged((user: any) => {
+      if (user) {
+        setCurrentUser(user);
+      }
+    });
+
+    return unsuscribe;
+  }, []);
+
+  return currentUser ? <HomeController /> : <AuthController />;
 };
 
 export default Navigation;
