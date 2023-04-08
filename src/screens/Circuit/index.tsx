@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {doc, getDoc} from 'firebase/firestore/lite';
 import {differenceInMinutes} from 'date-fns';
 
@@ -27,6 +27,7 @@ import {
 } from './styles';
 import ResultsModal from '../../components/ResultsModal';
 import {
+  currentUserState,
   defaultPositions,
   positionsState,
   resultsModalState,
@@ -50,6 +51,7 @@ const Circuit = ({route, navigation}: any) => {
   const [, setPositions] = useRecoilState(positionsState);
   const [resultType, setResultType] = useState('');
   const [myPositions, setMyPositions] = useState([]);
+  const currentUser: any = useRecoilValue(currentUserState);
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -137,7 +139,13 @@ const Circuit = ({route, navigation}: any) => {
   const getPositionsDB = async () => {
     if (!raceResults) return;
 
-    const positionsRef = doc(db, 'races', data.Circuit.circuitId);
+    const positionsRef = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      data.Circuit.circuitId,
+    );
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
     if (filteredResult?.positions !== undefined) {

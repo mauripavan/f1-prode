@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {Alert, Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useTheme} from 'styled-components';
 import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
 import Toast from 'react-native-root-toast';
@@ -11,7 +11,11 @@ import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
 import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
-import {editionState, positionsState} from '../../store/app-state';
+import {
+  currentUserState,
+  editionState,
+  positionsState,
+} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
 import {firebase} from '../../../firebaseConfig';
 import Loading from '../../components/Loading';
@@ -23,6 +27,7 @@ const PlayScreen = ({navigation, route}: any) => {
   const [loading, setLoading] = useState(false);
   const [positions, setPositions] = useRecoilState(positionsState);
   const [edition, setEdition] = useRecoilState(editionState);
+  const currentUser: any = useRecoilValue(currentUserState);
   const {circuitId} = route.params;
   const {db} = firebase;
 
@@ -69,7 +74,13 @@ const PlayScreen = ({navigation, route}: any) => {
   };
 
   const handleSavePress = async () => {
-    const positionsRed = doc(db, 'races', circuitId);
+    const positionsRed = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      circuitId,
+    );
     try {
       await setDoc(positionsRed, {
         positions: positions,
@@ -117,7 +128,13 @@ const PlayScreen = ({navigation, route}: any) => {
 
   const getPositionsDB = async () => {
     setLoading(true);
-    const positionsRef = doc(db, 'races', circuitId);
+    const positionsRef = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      circuitId,
+    );
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
 
