@@ -36,7 +36,7 @@ function Carousel(props: ICarouselProps) {
           Skip
         </TextMontserratR>
       </SkipButton>
-      <Separator size={180} />
+      <Separator size={130} />
       <ImageContainer>
         <StyledImage source={images.f1Logo} />
       </ImageContainer>
@@ -65,7 +65,7 @@ function Carousel(props: ICarouselProps) {
       <ButtonContainer>
         <CustomButton
           onPress={handleButtonPress}
-          text={index < list.length - 1 ? 'Siguiente' : 'Comenzar'}
+          text={index < list.length - 1 ? 'Next' : 'Start'}
           fontColor={colors.white}
         />
       </ButtonContainer>

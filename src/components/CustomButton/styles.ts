@@ -21,6 +21,10 @@ export const ButtonContainer = styled(TouchableOpacity)<IButtonProps>`
         return `
           background-color: ${theme.colors.gray[2]};
           `;
+      case ButtonVariants.Secondary:
+        return `
+          background-color: ${theme.colors.yellow[1]};
+          `;
     }
   }};
 `;
@@ -35,6 +39,13 @@ export const ButtonText = styled(Text)<IButtonProps>`
           font-family: 'MontserratSB'
           `;
       case ButtonVariants.Disabled:
+        return `
+          font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(20)}px;
+          font-weight: ${fontWeight ? fontWeight : 700};
+          color: ${fontColor ? fontColor : theme.colors.white};
+          font-family: 'MontserratSB'
+          `;
+      case ButtonVariants.Secondary:
         return `
           font-size: ${fontSize ? fontPixel(fontSize) : fontPixel(20)}px;
           font-weight: ${fontWeight ? fontWeight : 700};

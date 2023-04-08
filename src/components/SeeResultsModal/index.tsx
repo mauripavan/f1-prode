@@ -43,7 +43,6 @@ const SeeResultsModal = (props: IResultsModalProps) => {
           scoreArray.push(...score, false);
         }
       }
-      console.log('scoreArray: ', scoreArray);
       setScore(scoreArray);
       setTotalScore(totalScore);
     }

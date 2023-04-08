@@ -6,26 +6,24 @@ import {MainWrapper} from './styles';
 const slideList = [
   {
     id: 0,
-    title: 'Bienvenidos',
-    description: 'Completa tu perfil y tu escuderia de preferencia.',
+    title: 'Welcome',
+    description: 'Create an account to start playing.',
   },
   {
     id: 1,
-    title: 'Realiza tu apuesta',
-    description:
-      'Aposta como crees que van a quedar las primeras 10 posiciones.',
+    title: 'Races',
+    description: 'Each race is gonna be unlock 2 days before its start',
   },
   {
     id: 2,
-    title: 'Activa las notificaciones',
-    description:
-      'Activa las notificaciones para no olvidate de realizar tus apuestas para cada carrera.',
+    title: 'Make your bet',
+    description: 'Once unlocked, make your guess for the first 10 positions',
   },
   {
     id: 3,
-    title: 'A jugar! 🏎',
+    title: 'Play against yous friends! 🏎',
     description:
-      'AL finalizar el campeonato, el jugar que sume mas puntos recibira importantes premios.',
+      'You earn 10 points for each correct position. Compare your results with you friends at the end of the champsionship',
   },
 ];
 

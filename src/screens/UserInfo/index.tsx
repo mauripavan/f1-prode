@@ -3,8 +3,12 @@ import {useTheme} from 'styled-components';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useRecoilState} from 'recoil';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Yup from 'yup';
+import {Alert} from 'react-native';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 import CustomButton from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -13,18 +17,22 @@ import {TextHighSpeed, TextMontserratSB} from '../../components/Typography';
 import {fontPixel} from '../../constants/metrics';
 import {ButtonWrapper, InputWrapper, MainWrapper} from './styles';
 import {ButtonVariants} from '../../components/CustomButton/types';
-import {currentUserState, userConfigState} from '../../store/app-state';
+import {currentUserState} from '../../store/app-state';
+import {firebase} from '../../../firebaseConfig';
 
 const UserInfo = () => {
   const {colors} = useTheme();
+  const [, setCurrentUser] = useRecoilState(currentUserState);
+
+  const {auth} = firebase;
 
   const validationSchema = Yup.object().shape({
-    nombre: Yup.string().required('Por favor ingresa tu nombre'),
-    apellido: Yup.string().required('Por favor ingresa tu apellido'),
-    email: Yup.string().email().required('Por favor ingresa tu email'),
-    escuderia: Yup.string().required(
-      'Por favor ingresa tu escuderia preferida',
-    ),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Please enter a valid email'),
+    password: Yup.string()
+      .required('No password provided.')
+      .min(8, 'Password is too short - should be 8 chars minimum.'),
   });
 
   const {control, handleSubmit, formState} = useForm({
@@ -32,26 +40,39 @@ const UserInfo = () => {
   });
   const {errors, isValid, isSubmitting} = formState;
 
-  const [, setCurrentUser] = useRecoilState(currentUserState);
-  const [, setUserConfig] = useRecoilState(userConfigState);
-
-  const storeValue = async (value: any) => {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('userConfig', jsonValue);
+  const createAccount = (data: any) => {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        const user: any = userCredential.user;
+        setCurrentUser(user);
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
   };
 
-  const onCompleted = (data: any) => {
-    setCurrentUser({...data});
-    setUserConfig(true);
-    storeValue('true');
+  const logIn = (data: any) => {
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        const user: any = userCredential.user;
+        setCurrentUser(user);
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
   };
 
   return (
     <MainWrapper>
-      <TextHighSpeed color={colors.white} style={{textAlign: 'center'}}>
+      <Separator size={60} />
+      <TextHighSpeed
+        fontSize={fontPixel(30)}
+        color={colors.red[1]}
+        style={{textAlign: 'center'}}
+      >
         F1 Prode
       </TextHighSpeed>
-      <Separator size={100} />
+      <Separator size={20} />
       <InputWrapper>
         <Separator size={20} />
         <TextMontserratSB
@@ -59,53 +80,46 @@ const UserInfo = () => {
           color={colors.white}
           style={{textAlign: 'center'}}
         >
-          Ingresa tus datos
+          Log in to your account
         </TextMontserratSB>
         <Separator size={40} />
-        <CustomTextInput
-          placeholder="Nombre"
-          control={control}
-          name={'nombre'}
-          value={''}
-          error={errors.nombre ? true : false}
-          errorMessage={errors.nombre?.message?.toString()}
-        />
-        <Separator size={20} />
-        <CustomTextInput
-          placeholder="Apellido"
-          control={control}
-          name={'apellido'}
-          value={''}
-          error={errors.apellido ? true : false}
-          errorMessage={errors.apellido?.message?.toString()}
-        />
         <Separator size={20} />
         <CustomTextInput
           placeholder="Email"
           control={control}
           name={'email'}
-          value={''}
+          keyboardType="email-address"
           error={errors.email ? true : false}
           errorMessage={errors.email?.message?.toString()}
         />
         <Separator size={20} />
         <CustomTextInput
-          placeholder="Escuderia"
+          placeholder="Password"
           control={control}
-          name={'escuderia'}
-          value={''}
-          error={errors.escuderia ? true : false}
-          errorMessage={errors.escuderia?.message?.toString()}
+          name={'password'}
+          error={errors.password ? true : false}
+          errorMessage={errors.password?.message?.toString()}
+          secureTextEntry={true}
         />
         <Separator size={60} />
       </InputWrapper>
       <ButtonWrapper>
         <CustomButton
-          text="Siguiente"
-          onPress={handleSubmit(onCompleted)}
+          text="Log In"
+          onPress={handleSubmit(logIn)}
           disabled={isSubmitting}
           fontColor={isValid ? colors.white : colors.gray[2]}
           variant={isValid ? ButtonVariants.Primary : ButtonVariants.Disabled}
+        />
+      </ButtonWrapper>
+      <Separator size={20} />
+      <ButtonWrapper>
+        <CustomButton
+          text="Create Account"
+          onPress={handleSubmit(createAccount)}
+          disabled={isSubmitting}
+          fontColor={isValid ? colors.black : colors.gray[2]}
+          variant={isValid ? ButtonVariants.Secondary : ButtonVariants.Disabled}
         />
       </ButtonWrapper>
     </MainWrapper>

@@ -6,7 +6,7 @@ import {
 import {TouchableOpacity} from 'react-native';
 import {useTheme} from 'styled-components';
 
-import {TextHighSpeed} from '../Typography';
+import {TextFormula1R, TextHighSpeed} from '../Typography';
 import {images} from '../../../assets/images';
 import {
   DrawerContentMainWrapepr,
@@ -14,6 +14,8 @@ import {
   ListIconWrapper,
   ListItemWrapper,
   LogoImage,
+  LogOutIcon,
+  LogOutWrapper,
   LogoWrapper,
   NavigationWrapper,
 } from './styles';
@@ -21,7 +23,14 @@ import useDrawerContent from './useDrawerContent';
 import {fontPixel, pixelSizeVertical} from '../../constants/metrics';
 
 const DrawerContent = (props: DrawerContentComponentProps) => {
-  const {active, handleNavigation, onLogoPress, screens} = useDrawerContent();
+  const {
+    active,
+    handleNavigation,
+    onLogoPress,
+    screens,
+    handleLogOut,
+    logOutIcon,
+  } = useDrawerContent();
   const {colors} = useTheme();
 
   return (
@@ -33,7 +42,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
       contentContainerStyle={{
         paddingBottom: pixelSizeVertical(20),
         flex: 1,
-        backgroundColor: colors.black,
+        backgroundColor: colors.dark[1],
       }}
     >
       <DrawerContentMainWrapepr>
@@ -46,32 +55,31 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           {screens?.map((screen, index) => {
             const isActive = active === screen.to;
             return (
-              <ListItemWrapper key={`menu-screen-${screen.name}-${index}`}>
+              <ListItemWrapper
+                onPress={() => handleNavigation(screen.to)}
+                key={`menu-screen-${screen.name}-${index}`}
+              >
                 <ListIconWrapper>
                   <ListIcon source={screen.icon} />
                 </ListIconWrapper>
-                <TouchableOpacity onPress={() => handleNavigation(screen.to)}>
-                  {isActive ? (
-                    <TextHighSpeed
-                      fontSize={fontPixel(20)}
-                      color={colors.white}
-                    >
-                      {screen.name}
-                    </TextHighSpeed>
-                  ) : (
-                    <TextHighSpeed
-                      fontSize={fontPixel(20)}
-                      color={colors.white}
-                    >
-                      {screen.name}
-                    </TextHighSpeed>
-                  )}
-                </TouchableOpacity>
+                {isActive ? (
+                  <TextHighSpeed fontSize={fontPixel(20)} color={colors.white}>
+                    {screen.name}
+                  </TextHighSpeed>
+                ) : (
+                  <TextHighSpeed fontSize={fontPixel(20)} color={colors.white}>
+                    {screen.name}
+                  </TextHighSpeed>
+                )}
               </ListItemWrapper>
             );
           })}
         </NavigationWrapper>
       </DrawerContentMainWrapepr>
+      <LogOutWrapper onPress={handleLogOut}>
+        <LogOutIcon source={logOutIcon} />
+        <TextFormula1R color={colors.white}>Log Out</TextFormula1R>
+      </LogOutWrapper>
     </DrawerContentScrollView>
   );
 };

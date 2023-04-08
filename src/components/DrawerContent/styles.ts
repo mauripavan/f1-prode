@@ -29,7 +29,7 @@ export const NavigationWrapper = styled(View)`
   flex: 1;
 `;
 
-export const ListItemWrapper = styled(View)`
+export const ListItemWrapper = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   margin-bottom: ${pixelSizeVertical(37)}px;
@@ -49,16 +49,16 @@ export const ListIcon = styled(Image)`
   tint-color: ${({theme}) => theme.colors.red[1]};
 `;
 
-export const LogOutWrapper = styled(TouchableOpacity)`
-  flex-direction: row;
-  align-items: center;
-  align-self: flex-start;
-  margin-bottom: ${pixelSizeVertical(27)}px;
+export const LogOutIcon = styled(Image)`
+  height: ${heightPixel(18)}px;
+  width: ${widthPixel(18)}px;
+  margin-right: ${pixelSizeHorizontal(10)}px;
+  tint-color: ${({theme}) => theme.colors.green[2]};
 `;
 
-export const LogOutIcon = styled(Image)`
-  height: ${heightPixel(15)}px;
-  width: ${widthPixel(15)}px;
-  margin-right: ${pixelSizeHorizontal(11)}px;
-  tint-color: ${({theme}) => theme.colors.green[2]};
+export const LogOutWrapper = styled(TouchableOpacity)`
+  padding-horizontal: ${pixelSizeHorizontal(30)}px;
+  margin-bottom: ${pixelSizeVertical(10)}px;
+  flex-direction: row;
+  align-items: center;
 `;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {Alert, Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useTheme} from 'styled-components';
 import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
 import Toast from 'react-native-root-toast';
@@ -11,9 +11,13 @@ import {icons} from '../../../assets/icons';
 import SelectDriver from '../../components/SelectDriver';
 import SelectDriverModal from '../../components/SelectDriverModal';
 import {TextFormula1R, TextHighSpeed} from '../../components/Typography';
-import {editionState, positionsState} from '../../store/app-state';
+import {
+  currentUserState,
+  editionState,
+  positionsState,
+} from '../../store/app-state';
 import {BackIcon, HeaderWrapper, MainWrapper} from './styles';
-import db from '../../../firebaseConfig';
+import {firebase} from '../../../firebaseConfig';
 import Loading from '../../components/Loading';
 import {fontPixel, heightPixel} from '../../constants/metrics';
 
@@ -23,7 +27,9 @@ const PlayScreen = ({navigation, route}: any) => {
   const [loading, setLoading] = useState(false);
   const [positions, setPositions] = useRecoilState(positionsState);
   const [edition, setEdition] = useRecoilState(editionState);
+  const currentUser: any = useRecoilValue(currentUserState);
   const {circuitId} = route.params;
+  const {db} = firebase;
 
   useEffect(() => {
     getDrivers();
@@ -55,17 +61,26 @@ const PlayScreen = ({navigation, route}: any) => {
   };
 
   const hanldeBackPress = () => {
-    edition
-      ? Alert.alert(
-          'Unsaved Changes',
-          'Please save your changes before going back',
-          [{text: 'Ok'}],
-        )
-      : navigation.goBack();
+    const completedPositions = positions.filter((elem) => elem.name);
+    if (edition || completedPositions.length < 10) {
+      Alert.alert(
+        'Unsaved Changes',
+        'Please complete all the positions and save your changes before going back',
+        [{text: 'OK'}],
+      );
+    } else {
+      navigation.goBack();
+    }
   };
 
   const handleSavePress = async () => {
-    const positionsRed = doc(db, 'races', circuitId);
+    const positionsRed = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      circuitId,
+    );
     try {
       await setDoc(positionsRed, {
         positions: positions,
@@ -91,7 +106,7 @@ const PlayScreen = ({navigation, route}: any) => {
         })
         .then(() => setEdition(false));
     } catch (e) {
-      Toast.show('Something went worng. Please try again', {
+      Toast.show('Something failed. Try again', {
         duration: Toast.durations.SHORT,
         containerStyle: {
           backgroundColor: colors.red[1],
@@ -113,7 +128,13 @@ const PlayScreen = ({navigation, route}: any) => {
 
   const getPositionsDB = async () => {
     setLoading(true);
-    const positionsRef = doc(db, 'races', circuitId);
+    const positionsRef = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      circuitId,
+    );
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
 

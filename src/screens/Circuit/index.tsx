@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {doc, getDoc} from 'firebase/firestore/lite';
+import {differenceInMinutes} from 'date-fns';
 
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
@@ -26,17 +27,19 @@ import {
 } from './styles';
 import ResultsModal from '../../components/ResultsModal';
 import {
+  currentUserState,
   defaultPositions,
   positionsState,
   resultsModalState,
 } from '../../store/app-state';
 import Loading from '../../components/Loading';
 import SeeResultsModal from '../../components/SeeResultsModal';
-import db from '../../../firebaseConfig';
+import {firebase} from '../../../firebaseConfig';
 
 const Circuit = ({route, navigation}: any) => {
   const {colors} = useTheme();
   const {data} = route.params;
+  const {db} = firebase;
 
   const [circuitImage, setCircuitImage] = useState<any>();
   const [qualyResults, setQualyResults] = useState([]);
@@ -48,6 +51,7 @@ const Circuit = ({route, navigation}: any) => {
   const [, setPositions] = useRecoilState(positionsState);
   const [resultType, setResultType] = useState('');
   const [myPositions, setMyPositions] = useState([]);
+  const currentUser: any = useRecoilValue(currentUserState);
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -135,7 +139,13 @@ const Circuit = ({route, navigation}: any) => {
   const getPositionsDB = async () => {
     if (!raceResults) return;
 
-    const positionsRef = doc(db, 'races', data.Circuit.circuitId);
+    const positionsRef = doc(
+      db,
+      'users',
+      currentUser.email,
+      'races',
+      data.Circuit.circuitId,
+    );
     const result = await getDoc(positionsRef);
     const filteredResult = result.data();
     if (filteredResult?.positions !== undefined) {
@@ -159,6 +169,14 @@ const Circuit = ({route, navigation}: any) => {
 
   const handlePlay = () => {
     navigation.navigate('Play', {circuitId: data.Circuit.circuitId});
+  };
+
+  const checkPlayAvailable = () => {
+    const today = new Date();
+    const raceTime = new Date(`${data.date}T${data.time}`);
+    const result = differenceInMinutes(raceTime, today);
+    if (result < 1) return true;
+    return false;
   };
 
   if (loading) {
@@ -219,7 +237,7 @@ const Circuit = ({route, navigation}: any) => {
         </ResultCardWrapper>
         <Separator size={40} />
         <PlayButtonWrapper>
-          <PlayButton disabled={!raceDisabled} onPress={handlePlay}>
+          <PlayButton disabled={checkPlayAvailable()} onPress={handlePlay}>
             <TextHighSpeed fontSize={fontPixel(14)} color={colors.black}>
               Play
             </TextHighSpeed>
