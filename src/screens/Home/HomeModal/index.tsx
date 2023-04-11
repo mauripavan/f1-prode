@@ -1,105 +1,31 @@
 import React from 'react';
-import {Modal, View} from 'react-native';
-import {useTheme} from 'styled-components';
-import * as Yup from 'yup';
-import {useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {getAuth, updateProfile} from 'firebase/auth';
-import Toast from 'react-native-root-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useRecoilState} from 'recoil';
+import {Modal} from 'react-native';
 
-import {heightPixel} from '../../../constants/metrics';
 import {ButtonVariants} from '../../../components/CustomButton/types';
 import {TextFormula1B} from '../../../components/Typography';
 import Separator from '../../../components/Separator';
 import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
-import {homeModalState} from '../../../store/app-state';
+import {MainWrapper} from '../styles';
+import {ButtonWrapper, SubWrapper} from './styles';
+import useHomeModal from './useHomeModal';
 
 const HomeModal = () => {
-  const {colors} = useTheme();
-
-  const [homeModalvisible, setHomeModalVisible] =
-    useRecoilState(homeModalState);
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    lastName: Yup.string().required('Last name is required.'),
-  });
-
-  const {control, handleSubmit, formState} = useForm({
-    resolver: yupResolver(validationSchema),
-  });
-  const {errors, isValid, isSubmitting} = formState;
-
-  const handleName = (data: any) => {
-    const auth: any = getAuth();
-    updateProfile(auth.currentUser, {
-      displayName: `${data.name} ${data.lastName}`,
-    })
-      .then(() => {
-        setHomeModalVisible(false);
-        AsyncStorage.setItem('UserName', 'true');
-        Toast.show('Profile updated!', {
-          duration: Toast.durations.SHORT,
-          containerStyle: {
-            backgroundColor: colors.green[3],
-            width: '70%',
-            height: heightPixel(55),
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 100,
-            borderWidth: 1,
-            borderColor: colors.gray[2],
-          },
-          opacity: 1,
-          position: 100,
-          animation: true,
-          hideOnPress: true,
-        });
-      })
-      .catch(() => {
-        setHomeModalVisible(false);
-        Toast.show('Something failed', {
-          duration: Toast.durations.SHORT,
-          containerStyle: {
-            backgroundColor: colors.red[1],
-            width: '70%',
-            height: heightPixel(55),
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 100,
-            borderWidth: 1,
-            borderColor: colors.red[1],
-          },
-          opacity: 1,
-          position: 100,
-          animation: true,
-          hideOnPress: true,
-        });
-      });
-  };
+  const {
+    control,
+    errors,
+    handleName,
+    handleSubmit,
+    homeModalvisible,
+    isSubmitting,
+    isValid,
+    colors,
+  } = useHomeModal();
 
   return (
     <Modal transparent={true} visible={homeModalvisible}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <View
-          style={{
-            height: '50%',
-            width: '80%',
-            justifyContent: 'center',
-            backgroundColor: colors.dark[2],
-            borderRadius: 10,
-            padding: 20,
-          }}
-        >
+      <MainWrapper>
+        <SubWrapper>
           <Separator size={20} />
           <TextFormula1B
             color={colors.green[2]}
@@ -135,12 +61,7 @@ const HomeModal = () => {
           />
           <Separator size={30} />
 
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <ButtonWrapper>
             <CustomButton
               text="Save"
               onPress={handleSubmit(handleName)}
@@ -152,9 +73,9 @@ const HomeModal = () => {
               fontSize={16}
               style={{width: 150}}
             />
-          </View>
-        </View>
-      </View>
+          </ButtonWrapper>
+        </SubWrapper>
+      </MainWrapper>
     </Modal>
   );
 };
