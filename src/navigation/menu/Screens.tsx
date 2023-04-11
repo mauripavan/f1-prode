@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from '../../screens/Home';
 import useScreenOptions from '../../hooks/useScreenOptions';
+import Ranking from '../../screens/Ranking';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,11 @@ const Screens = () => {
       <Stack.Screen
         name="Home"
         component={Home}
+        options={{gestureEnabled: false}}
+      />
+      <Stack.Screen
+        name="Ranking"
+        component={Ranking}
         options={{gestureEnabled: false}}
       />
     </Stack.Navigator>
