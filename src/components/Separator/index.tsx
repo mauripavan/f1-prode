@@ -2,10 +2,8 @@ import React from 'react';
 import {View} from 'react-native';
 
 import {pixelSizeVertical} from '../../constants/metrics';
+import {ISeparator} from './type';
 
-interface ISeparator {
-  size: number;
-}
 const Separator = (props: ISeparator) => (
   <View style={{height: pixelSizeVertical(props.size)}} />
 );

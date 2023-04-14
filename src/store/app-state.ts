@@ -102,3 +102,13 @@ export const positionsState = atom({
   key: 'PositionsState',
   default: defaultPositions,
 });
+
+export const homeModalState = atom({
+  key: 'HomeModalState',
+  default: true,
+});
+
+export const listAllUsersState = atom({
+  key: 'ListAllUsersState',
+  default: [],
+});

@@ -6,6 +6,7 @@ import {
   pixelSizeHorizontal,
   widthPixel,
 } from '../../constants/metrics';
+import {ICardIconProps} from './types';
 
 export const MainWrapper = styled(Pressable)`
   height: ${heightPixel(100)}px;
@@ -19,10 +20,6 @@ export const MainWrapper = styled(Pressable)`
   border-width: 2px;
   border-color: ${({theme}) => theme.colors.gray[2]};
 `;
-
-interface ICardIconProps {
-  disabled?: boolean | null;
-}
 
 export const CardIcon = styled(Image)<ICardIconProps>`
   height: ${heightPixel(15)}px;

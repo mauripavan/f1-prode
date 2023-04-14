@@ -1,18 +1,15 @@
 import styled from 'styled-components';
 import {Pressable, View, Image} from 'react-native';
 
-import {heightPixel} from '../../constants/metrics';
-
-interface IMainWrapperProps {
-  index: number;
-}
+import {heightPixel, pixelSizeVertical} from '../../constants/metrics';
+import {IMainWrapperProps} from './types';
 
 export const MainWrapper = styled(Pressable)<IMainWrapperProps>`
   height: ${heightPixel(235)}px;
   width: 50%;
   justify-content: center;
   align-items: center;
-  margin-top: ${({index}) => (index % 2 == 1 ? 70 : 0)}px;
+  margin-top: ${({index}) => (index % 2 == 1 ? pixelSizeVertical(70) : 0)}px;
   padding: 10px;
 `;
 
@@ -39,5 +36,5 @@ export const BoxLine = styled(View)`
 export const DriverImage = styled(Image)`
   width: 100%;
   height: 100%;
-  margin-top: 5px;
+  margin-top: ${pixelSizeVertical(5)}px;
 `;

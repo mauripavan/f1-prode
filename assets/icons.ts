@@ -9,6 +9,7 @@ const raceFlag = require('./icons/finish-flag.png');
 const tyre = require('./icons/tyre.png');
 const close = require('./icons/close.png');
 const logOut = require('./icons/logOut.png');
+const ranking = require('./icons/ranking.png');
 
 export const icons = {
   locked,
@@ -20,4 +21,5 @@ export const icons = {
   tyre,
   close,
   logOut,
+  ranking,
 };

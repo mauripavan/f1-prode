@@ -9,11 +9,17 @@ const CustomButton = (props: IButtonProps) => {
     text,
     fontColor,
     style,
+    fontSize,
     ...defaultProps
   } = props;
   return (
     <ButtonContainer variant={variant} style={style} {...defaultProps}>
-      <ButtonText testID={'buttonText'} fontColor={fontColor} variant={variant}>
+      <ButtonText
+        testID={'buttonText'}
+        fontSize={fontSize}
+        fontColor={fontColor}
+        variant={variant}
+      >
         {text}
       </ButtonText>
     </ButtonContainer>

@@ -51,7 +51,7 @@ const RaceCard = (props: IRaceCardProps) => {
         </TextHighSpeed>
         <TextHighSpeed
           color={colors.blue[1]}
-          fontSize={fontPixel(8)}
+          fontSize={fontPixel(10)}
           style={{marginLeft: pixelSizeHorizontal(10)}}
         >
           {formatedDate}
@@ -61,6 +61,7 @@ const RaceCard = (props: IRaceCardProps) => {
         <LockIcon
           isLocked={isLocked}
           source={!isLocked ? icons.unlocked : icons.locked}
+          resizeMode={'contain'}
         />
       </LockIconWrapper>
     </MainWrapper>

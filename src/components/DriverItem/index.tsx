@@ -3,6 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {useTheme} from 'styled-components';
 
 import {images} from '../../../assets/images';
+import {fontPixel} from '../../constants/metrics';
 import {
   driversModalState,
   editionState,
@@ -98,7 +99,7 @@ const DriverItem = (props: IDriverItemProps) => {
   return (
     <MainWrapper disabled={disabled} onPress={handleSelection}>
       <TextFormula1B
-        fontSize={16}
+        fontSize={fontPixel(16)}
         style={{marginRight: 15}}
         color={disabled ? colors.gray[2] : colors.white}
       >

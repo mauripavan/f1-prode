@@ -26,7 +26,10 @@ const useDrawerContent = () => {
     navigation.navigate('Home');
   };
 
-  const screens = [{name: 'Home', to: 'Home', icon: icons.home}];
+  const screens = [
+    {name: 'Home', to: 'Home', icon: icons.home},
+    {name: 'Ranking', to: 'Ranking', icon: icons.ranking},
+  ];
 
   const handleLogOut = () => {
     Alert.alert('Sign out', 'Are you sure you want to log out?', [

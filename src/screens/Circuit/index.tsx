@@ -250,7 +250,11 @@ const Circuit = ({route, navigation}: any) => {
         />
       </MainWrapper>
       {myPositions[0] !== undefined && (
-        <SeeResultsModal data={myPositions} raceResults={raceResults} />
+        <SeeResultsModal
+          data={myPositions}
+          raceResults={raceResults}
+          circuitId={data.Circuit.circuitId}
+        />
       )}
     </>
   );
