@@ -6,8 +6,7 @@ import {TextFormula1B} from '../../../components/Typography';
 import Separator from '../../../components/Separator';
 import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
-import {MainWrapper} from '../styles';
-import {ButtonWrapper, SubWrapper} from './styles';
+import {ButtonWrapper, SubWrapper, MainWrapper} from './styles';
 import useHomeModal from './useHomeModal';
 
 const HomeModal = () => {

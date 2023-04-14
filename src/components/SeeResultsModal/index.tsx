@@ -2,18 +2,26 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Dimensions, FlatList, View} from 'react-native';
 import {useTheme} from 'styled-components';
 import BottomSheet from '@gorhom/bottom-sheet';
+import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
+import {useRecoilValue} from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {fontPixel, pixelSizeHorizontal} from '../../constants/metrics';
 import FinalScoreItem from '../FinalScoreItem';
 import Separator from '../Separator';
 import {TextFormula1B, TextFormula1R, TextMontserratSB} from '../Typography';
 import {IResultsModalProps} from './types';
+import {firebase} from '../../../firebaseConfig';
+import {currentUserState} from '../../store/app-state';
 
 const SeeResultsModal = (props: IResultsModalProps) => {
+  const {db} = firebase;
+
   const {colors} = useTheme();
-  const {data, raceResults} = props;
+  const {data, raceResults, circuitId} = props;
   const [score, setScore] = useState<any>([]);
-  const [totalScore, setTotalScore] = useState(0);
+  const [totalRaceScore, setTotalRaceScore] = useState(0);
+  const currentUser: any = useRecoilValue(currentUserState);
 
   const renderItem = ({item, index}: any) => {
     return (
@@ -29,10 +37,19 @@ const SeeResultsModal = (props: IResultsModalProps) => {
     compareArrays(raceResults, data);
   }, []);
 
-  const compareArrays = (a: any[], b: any[]) => {
+  const compareArrays = async (a: any[], b: any[]) => {
     const newResultsArray = a.slice(0, 10);
     const scoreArray = [];
     let totalScore = 0;
+    const raceRef = doc(db, 'users', currentUser.email, 'races', circuitId);
+    const userRef = doc(db, 'users', currentUser.email);
+    const userResult = await getDoc(userRef);
+    const filteredUserData = userResult.data();
+    const initialValue =
+      filteredUserData?.globalScore == undefined
+        ? 0
+        : filteredUserData?.globalScore;
+
     if (newResultsArray == undefined) return;
     else {
       for (let i = 0; i < newResultsArray.length; i++) {
@@ -44,7 +61,15 @@ const SeeResultsModal = (props: IResultsModalProps) => {
         }
       }
       setScore(scoreArray);
-      setTotalScore(totalScore);
+      setTotalRaceScore(totalScore);
+      setDoc(raceRef, {myScore: totalScore}, {merge: true});
+      const updatedScore = initialValue + totalScore;
+      const scoreTracked = await AsyncStorage.getItem(`${circuitId}`);
+
+      if (scoreTracked === null) {
+        setDoc(userRef, {globalScore: updatedScore}, {merge: true});
+        AsyncStorage.setItem(`${circuitId}`, 'true');
+      }
     }
   };
 
@@ -72,7 +97,7 @@ const SeeResultsModal = (props: IResultsModalProps) => {
         </TextFormula1R>
         <Separator size={10} />
         <TextFormula1B color={colors.green[2]} fontSize={fontPixel(16)}>
-          {totalScore} pts
+          {totalRaceScore} pts
         </TextFormula1B>
       </View>
       <Separator size={20} />

@@ -107,3 +107,8 @@ export const homeModalState = atom({
   key: 'HomeModalState',
   default: true,
 });
+
+export const listAllUsersState = atom({
+  key: 'ListAllUsersState',
+  default: [],
+});

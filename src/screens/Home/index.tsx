@@ -3,13 +3,17 @@ import {StatusBar, FlatList} from 'react-native';
 import axios from 'axios';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {doc, setDoc} from 'firebase/firestore/lite';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {collection, getDocs} from 'firebase/firestore/lite';
 
 import RaceCard from '../../components/RaceCard';
 import Separator from '../../components/Separator';
 import {FlatListWrapper, MainWrapper} from './styles';
 import Loading from '../../components/Loading';
-import {currentUserState, homeModalState} from '../../store/app-state';
+import {
+  currentUserState,
+  homeModalState,
+  listAllUsersState,
+} from '../../store/app-state';
 import {firebase} from '../../../firebaseConfig';
 import HomeModal from './HomeModal';
 
@@ -17,11 +21,27 @@ const Home = () => {
   useEffect(() => {
     StatusBar.setBarStyle('light-content');
   }, []);
+
+  useEffect(() => {
+    getData();
+    setUserDB();
+  }, []);
+
+  useEffect(() => {
+    checkUserName();
+  }, []);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const {db} = firebase;
 
   const [races, setRaces] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const currentUser: any = useRecoilValue(currentUserState);
+  const [, setHomeModalVisible] = useRecoilState(homeModalState);
+  const [, setListAllUsers] = useRecoilState(listAllUsersState);
 
   const baseUrl = 'http://ergast.com/api/f1';
 
@@ -35,34 +55,34 @@ const Home = () => {
   const setUserDB = async () => {
     const user = doc(db, 'users', currentUser.email);
     try {
-      await setDoc(user, {
-        userData: currentUser.providerData[0],
-      });
+      await setDoc(
+        user,
+        {
+          userData: currentUser.providerData[0],
+        },
+        {merge: true},
+      );
     } catch {
       console.log('empty user');
     }
   };
 
-  useEffect(() => {
-    getData();
-    setUserDB();
-  }, []);
-
-  useEffect(() => {
-    checkUserName();
-  }, []);
-
   const renderItem = ({item}: any) => {
     return <RaceCard data={item} />;
   };
 
-  const [, setHomeModalVisible] = useRecoilState(homeModalState);
+  const checkUserName = () => {
+    currentUser?.displayName !== null || undefined
+      ? setHomeModalVisible(false)
+      : setHomeModalVisible(true);
+  };
 
-  const checkUserName = async () => {
-    const value = await AsyncStorage.getItem('UserName');
-    if (value !== null) {
-      setHomeModalVisible(false);
-    }
+  const getUsers = async () => {
+    const usersRef = collection(db, 'users');
+    await getDocs(usersRef).then((usersCollection) => {
+      const users: any = usersCollection.docs.map((doc) => doc.data());
+      setListAllUsers(users);
+    });
   };
 
   if (loading) {

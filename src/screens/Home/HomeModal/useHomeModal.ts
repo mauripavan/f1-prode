@@ -4,7 +4,6 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {getAuth, updateProfile} from 'firebase/auth';
 import Toast from 'react-native-root-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from 'styled-components';
 
 import {homeModalState} from '../../../store/app-state';
@@ -32,7 +31,6 @@ const useHomeModal = () => {
     })
       .then(() => {
         setHomeModalVisible(false);
-        AsyncStorage.setItem('UserName', 'true');
         Toast.show('Profile updated!', {
           duration: Toast.durations.SHORT,
           containerStyle: {
