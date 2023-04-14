@@ -42,7 +42,7 @@ function Carousel(props: ICarouselProps) {
       </ImageContainer>
       <TextHighSpeed
         color={colors.white}
-        fontSize={30}
+        fontSize={fontPixel(30)}
         style={{textAlign: 'center'}}
       >
         F1 Prode

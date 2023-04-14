@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import {View} from 'react-native';
 
 import {heightPixel, pixelSizeHorizontal} from '../../constants/metrics';
-
-interface IMainWrapper {
-  index: number;
-}
+import {IMainWrapper} from './types';
 
 export const MainWrapper = styled(View)<IMainWrapper>`
   flex-direction: row;

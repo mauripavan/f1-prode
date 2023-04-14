@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 import {useTheme} from 'styled-components';
 import {useRecoilValue} from 'recoil';
 import {collection, getDocs} from 'firebase/firestore/lite';
@@ -11,6 +11,7 @@ import {fontPixel} from '../../constants/metrics';
 import {firebase} from '../../../firebaseConfig';
 import {listAllUsersState} from '../../store/app-state';
 import Loading from '../../components/Loading';
+import {HeaderWrapper, ListWrapper, MainWrapper} from './styles';
 
 const Ranking = () => {
   const {colors} = useTheme();
@@ -61,33 +62,17 @@ const Ranking = () => {
   }
 
   return (
-    <View style={{backgroundColor: colors.black, flex: 1}}>
+    <MainWrapper>
       <Separator size={30} />
-      <View
-        style={{
-          backgroundColor: colors.black,
-          position: 'absolute',
-          top: 25,
-          left: 5,
-          zIndex: 10,
-        }}
-      >
+      <HeaderWrapper>
         <TextFormula1B fontSize={fontPixel(16)} color={colors.red[1]}>
           Ranking{' '}
         </TextFormula1B>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          borderTopWidth: 8,
-          borderRightWidth: 8,
-          borderColor: colors.red[1],
-          borderRadius: 20,
-        }}
-      >
+      </HeaderWrapper>
+      <ListWrapper>
         <FlatList data={newUserList} renderItem={renderItem} />
-      </View>
-    </View>
+      </ListWrapper>
+    </MainWrapper>
   );
 };
 

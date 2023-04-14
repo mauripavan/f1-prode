@@ -1,36 +1,33 @@
 import * as React from 'react';
 import {ErrorBoundary, FallbackProps} from 'react-error-boundary';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useTheme} from 'styled-components';
 
-import {ErrorHandlerMainWrapper} from './styles';
+import {fontPixel} from '../../constants/metrics';
+import {TextMontserratR, TextMontserratSB} from '../Typography';
+import {ErrorHandlerMainWrapper, ErrorHandlerSubWrapper} from './styles';
 
 function ErrorFallback({resetErrorBoundary}: FallbackProps) {
   const {colors} = useTheme();
   return (
     <ErrorHandlerMainWrapper>
-      <View style={{alignItems: 'center'}}>
-        <Text
+      <ErrorHandlerSubWrapper>
+        <TextMontserratSB
+          color={colors.white}
+          fontSize={fontPixel(26)}
           style={{
             marginBottom: 16,
-            fontSize: 26,
-            color: colors.white,
           }}
         >
           {' '}
           Something went wrong:{' '}
-        </Text>
+        </TextMontserratSB>
         <TouchableOpacity onPress={resetErrorBoundary}>
-          <Text
-            style={{
-              fontSize: 20,
-              color: colors.white,
-            }}
-          >
+          <TextMontserratR fontSize={fontPixel(20)} color={colors.white}>
             Try Again
-          </Text>
+          </TextMontserratR>
         </TouchableOpacity>
-      </View>
+      </ErrorHandlerSubWrapper>
     </ErrorHandlerMainWrapper>
   );
 }

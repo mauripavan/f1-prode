@@ -9,3 +9,7 @@ export const ErrorHandlerMainWrapper = styled(View)`
   padding-left: 12px;
   background-color: #1a8fe3;
 `;
+
+export const ErrorHandlerSubWrapper = styled(View)`
+  align-items: center;
+`;
