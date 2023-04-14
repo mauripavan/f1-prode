@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Platform, StatusBar, View} from 'react-native';
+import {View} from 'react-native';
 
 import {pixelSizeHorizontal} from '../../constants/metrics';
 
@@ -8,7 +8,6 @@ export const MainWrapper = styled(View)`
   align-items: center;
   flex: 1;
   background-color: ${({theme}) => theme.colors.black};
-  padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight : 0}px;
 `;
 
 export const FlatListWrapper = styled(View)`

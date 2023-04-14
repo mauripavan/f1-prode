@@ -14,7 +14,7 @@ export const DrawerContentMainWrapepr = styled(View)`
   flex: 1;
 `;
 
-export const LogoWrapper = styled(View)`
+export const LogoWrapper = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
 `;

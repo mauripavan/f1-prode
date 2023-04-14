@@ -18,7 +18,7 @@ import {
 export const MainWrapper = styled(SafeAreaView)`
   background-color: ${({theme}) => theme.colors.black};
   flex: 1;
-  padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight : 0};
+  padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight : 0}px;
 `;
 
 export const HeaderWrapper = styled(View)`

@@ -1,12 +1,5 @@
 import styled from 'styled-components';
-import {
-  Pressable,
-  View,
-  Image,
-  Platform,
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
+import {Pressable, View, Image, SafeAreaView} from 'react-native';
 
 import {
   heightPixel,
@@ -21,7 +14,6 @@ export const MainModalWrapper = styled(View)`
 export const SubModalWrapper = styled(SafeAreaView)`
   flex: 1;
   background-color: ${({theme}) => theme.colors.black};
-  padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight : 0}px;
 `;
 
 export const HeaderWrapper = styled(View)`

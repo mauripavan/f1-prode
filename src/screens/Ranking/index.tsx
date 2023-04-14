@@ -11,7 +11,7 @@ import {fontPixel} from '../../constants/metrics';
 import {firebase} from '../../../firebaseConfig';
 import {listAllUsersState} from '../../store/app-state';
 import Loading from '../../components/Loading';
-import {HeaderWrapper, ListWrapper, MainWrapper} from './styles';
+import {HeaderWrapper, MainWrapper} from './styles';
 
 const Ranking = () => {
   const {colors} = useTheme();
@@ -69,9 +69,8 @@ const Ranking = () => {
           Ranking{' '}
         </TextFormula1B>
       </HeaderWrapper>
-      <ListWrapper>
-        <FlatList data={newUserList} renderItem={renderItem} />
-      </ListWrapper>
+      <Separator size={10} />
+      <FlatList data={newUserList} renderItem={renderItem} />
     </MainWrapper>
   );
 };

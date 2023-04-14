@@ -18,8 +18,4 @@ export const HeaderWrapper = styled(View)`
 
 export const ListWrapper = styled(View)`
   flex: 1;
-  border-top-width: 8px;
-  border-right-width: 8px;
-  border-color: ${({theme}) => theme.colors.red[1]};
-  border-radius: 20px;
 `;

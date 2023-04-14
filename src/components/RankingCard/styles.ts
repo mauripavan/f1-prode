@@ -9,10 +9,10 @@ export const MainWrapper = styled(View)`
   padding: ${pixelSizeHorizontal(20)}px;
   justify-content: space-between;
   border-bottom-width: 1px;
-  border-bottom-color: colors.gray[2];
+  border-bottom-color: ${({theme}) => theme.colors.gray[2]};
 `;
 
 export const NameAndPlaceWrapper = styled(View)`
-    flex-direction: row;
-    align-items: center';
+  flex-direction: row;
+  align-items: center;
 `;

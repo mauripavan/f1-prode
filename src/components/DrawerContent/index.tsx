@@ -3,7 +3,6 @@ import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {TouchableOpacity} from 'react-native';
 import {useTheme} from 'styled-components';
 
 import {TextFormula1R, TextHighSpeed} from '../Typography';
@@ -46,10 +45,8 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
       }}
     >
       <DrawerContentMainWrapepr>
-        <LogoWrapper>
-          <TouchableOpacity onPress={onLogoPress}>
-            <LogoImage source={images.f1Logo} resizeMode="contain" />
-          </TouchableOpacity>
+        <LogoWrapper onPress={onLogoPress}>
+          <LogoImage source={images.f1Logo} resizeMode="contain" />
         </LogoWrapper>
         <NavigationWrapper>
           {screens?.map((screen, index) => {
@@ -60,10 +57,10 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                 key={`menu-screen-${screen.name}-${index}`}
               >
                 <ListIconWrapper>
-                  <ListIcon source={screen.icon} />
+                  <ListIcon source={screen.icon} resizeMode="contain" />
                 </ListIconWrapper>
                 {isActive ? (
-                  <TextHighSpeed fontSize={fontPixel(20)} color={colors.white}>
+                  <TextHighSpeed fontSize={fontPixel(30)} color={colors.white}>
                     {screen.name}
                   </TextHighSpeed>
                 ) : (
